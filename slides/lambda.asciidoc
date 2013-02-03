@@ -1,0 +1,222 @@
+//
+// Export to...
+//
+// dzslides with embedded assets:
+// asciidoc lambda.asciidoc
+//
+// dzslides with embedded assets:
+// asciidoc -a data-uri -a linkcss! lambda.asciidoc
+//
+// HTML5:
+// asciidoc -b html5 -o outline.html lambda.asciidoc
+//
+A la découverte des lambdas
+===========================
+Ninja Squad
+v1.0, Feb 12, 2013
+:title: A la découverte des lambdas
+:website: http://ninja-squad.com
+:slidesurl: ninjasquad.github.com/
+:imagesdir: images
+:backend: dzslides
+:linkcss: true
+:dzslides-style: stormy
+:dzslides-transition: fade
+:dzslides-fonts: family=Yanone+Kaffeesatz:400,700,200,300&family=Cedarville+Cursive
+:dzslides-highlight: monokai
+// disable syntax highlighting unless turned on explicitly
+:syntax: no-highlight
+
+[{topic}]
+== {slidesurl}
+----
+http://github.com/ninja-squad/
+----
+
+== \\
+
+[{statement}]
+Qui utilise *Java5* ?
+
+== \\
+
+[{statement}]
+Qui utilise *Java6* ?
+
+== \\
+
+[{statement}]
+Qui utilise *Java7* ?
+
+== \\
+
+[quote, Noone - Never]
+____
+Java7 a changé ma façon de développer!
+____
+
+[NOTES]
+====
+Qu'y a-t-il eu de nouveau dans Java 7?
+Quelques APIs: nio2, quelques ajouts dans concurrency, JDBC 4.1...
+Mais au quotidien, qu'est-ce qui a changé?
+====
+
+== \\
+
+[{statement}]
+Project *Coin* !
+
+[role="terminal"]
+== \\
+* Diamond
+[syntax="java"]
+----
+List<String> list = new ArrayList<>();
+----
+
+[role="terminal"]
+== \\
+* Strings in switch
+
+[role="terminal"]
+== \\
+* Better literals
+[syntax="java"]
+----
+0b11000011, 1_000_000
+----
+
+[role="terminal"]
+== \\
+* Multicatch
+[syntax="java"]
+----
+try {
+    ...
+}
+catch (SQLException | IOException e) {
+		log(e);
+}
+----
+
+[role="terminal"]
+== \\
+* Try with resources
+[syntax="java"]
+----
+try (InputStream in = new FileInputStream(inputFile); OutputStream out = new FileOutputSTream(outputFile)) {
+	...   
+}
+// automatically closed!
+----
+
+== \\
+
+[{statement}]
+Sortie de *Java8* ?
+
+== \\
+[{stepwise}]
+* developer preview 21/02/2013
+ +
+ +
+* final 09/09/2013
+
+== \\
+
+[{statement}]
+Quelles sont les *nouveautés* ?
+
+== \\
+[{stepwise}]
+* Date and Time API
+* Repeating annotations [detail]#@Foo(1) @Foo(2)#
+* Nashorn [detail]#Javascript engine#
+* Metaspace [detail]#Plus de PermGen#
+* et...
+
+[NOTES]
+====
+- Jigsaw? Non : remis à une date ultérieure
+ - new Date and Time API: il était temps. Date et Calendar sont parmi les plus mal conçues des classes utilisées tous les jours par les développeurs. Mais la nouvelle API sera très proche de JODA Time. Stephen Colebourne est le spec lead. Donc finalement, rien de révolutionnaire pour ceux qui utilisent déjà joda time.
+ - Nashorn : moteur javascript pour la jvm
+ - annotation du meme type repetable
+ @Foo(1) @Foo(2) au lieu de @Foos({@Foo(1), @Foo(2)})
+ - plus de perm gen
+ - Lambda (idée: faire un gros slide avec la lettre grecque en minuscule): c'est le plus gros changement, sans doute plus important encore que l'introduction des génériques
+====
+
+== \\
+
+image:lambda.png[role="pull-right"]
+
+[{topic}]
+== Vers un peu de fonctionnel!
+
+[role="terminal"]
+== \\
+* Java
+[syntax="java"]
+----
+  List<Integer> list = Arrays.asList(1, 2, 3);
+  List<String> transformed = new ArrayList<>();
+  for (Integer i : list) {
+      transformed.add(String.valueOf(i * 1000);
+  }
+  System.out.println(transformed);
+----
+
+[role="terminal"]
+== \\
+* Javascript
+[syntax="javascript"]
+----
+var array = [1, 2, 3];
+var transformed = $.map(array, function(value) {
+    return (value * 1000) + " ";
+}
+console.log(transformed);
+----
+
+[role="terminal"]
+== \\
+* Java avec Guava
+[syntax="java"]
+----
+List<Integer> list = Arrays.asList(1, 2, 3);
+List<String> transformed = 
+	FluentIterable.from(list)
+		.transform(new Function<Integer, String>() {
+			@Override
+			public String apply(Integer input) {
+				return String.valueOf(input * 1000);
+			})
+		.toList();
+System.out.println(transformed);
+----
+
+[NOTES]
+====
+C'est assez lourd. On perd du temps à écrire la classe anonyme, il y a une instanciation de classe à chaque fois, le code est peu lisible, et finalement, les seules parties intéressantes sont l'appel à transform(), et l'appel à String.valueOf(). Le reste, c'est du boilerplate.
+====
+
+[role="terminal"]
+== \\
+* Lambda style
+[syntax="java"]
+----
+List<Integer> list = Arrays.asList(1, 2, 3);
+List<String> transformed = 
+	list.stream()
+		.map(input -> String.valueOf(input * 1000))
+		.collect(Collectors.toList());
+System.out.println(transformed);
+----
+
+[NOTES]
+====
+Mais finalement, quel est l'intérêt par rapport à une simple boucle for?
+Supposons qu'on ait une liste de personnes, et qu'on veuille ne garder dans cette liste que les hommes, qu'on veuille ensuite les trier par ordre alphabétique
+des noms et prénoms, et ne conserver que les 2 premiers.
+====
