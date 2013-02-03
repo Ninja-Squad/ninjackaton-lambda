@@ -219,6 +219,7 @@ System.out.println(transformed);
 Mais finalement, quel est l'intérêt par rapport à une simple boucle for?
 Supposons qu'on ait une liste de personnes, et qu'on veuille ne garder dans cette liste que les hommes, qu'on veuille ensuite les trier par ordre alphabétique
 des noms et prénoms, et ne conserver que les 2 premiers.
+<<<<<<< HEAD
 ====
 
 [role="terminal"]
@@ -841,3 +842,6 @@ Le developer review va bientôt commencer. A nous d'agir. Déjà maintenant, le 
 
 
 
+=======
+====
+>>>>>>> pages
