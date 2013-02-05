@@ -220,3 +220,624 @@ Mais finalement, quel est l'intérêt par rapport à une simple boucle for?
 Supposons qu'on ait une liste de personnes, et qu'on veuille ne garder dans cette liste que les hommes, qu'on veuille ensuite les trier par ordre alphabétique
 des noms et prénoms, et ne conserver que les 2 premiers.
 ====
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava7() {
+    List<Person> males = new ArrayList<>();
+    for (Person person : Person.NINJA_SQUAD) {
+        
+    }
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava7() {
+    List<Person> males = new ArrayList<>();
+    for (Person person : Person.NINJA_SQUAD) {
+        if (person.getGender() == Person.Gender.MALE) {
+            males.add(person);
+        }
+    }
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava7() {
+    List<Person> males = new ArrayList<>();
+    for (Person person : Person.NINJA_SQUAD) {
+        if (person.getGender() == Person.Gender.MALE) {
+            males.add(person);
+        }
+    }
+    Collections.sort(males, new Comparator<Person>() {
+        @Override
+        public int compare(Person o1, Person o2) {
+            
+        }
+    });
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava7() {
+    List<Person> males = new ArrayList<>();
+    for (Person person : Person.NINJA_SQUAD) {
+        if (person.getGender() == Person.Gender.MALE) {
+            males.add(person);
+        }
+    }
+    Collections.sort(males, new Comparator<Person>() {
+        @Override
+        public int compare(Person o1, Person o2) {
+            int result = o1.getLastName()
+        		.compareTo(o2.getLastName());
+            if (result == 0) {
+                result = o1.getFirstName()
+                	.compareTo(o2.getFirstName());
+            }
+            return result;
+        }
+    });
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava7() {
+    List<Person> males = new ArrayList<>();
+    for (Person person : Person.NINJA_SQUAD) {
+        if (person.getGender() == Person.Gender.MALE) {
+            males.add(person);
+        }
+    }
+    Collections.sort(males, new Comparator<Person>() {
+        @Override
+        public int compare(Person o1, Person o2) {
+            int result = o1.getLastName()
+        		.compareTo(o2.getLastName());
+            if (result == 0) {
+                result = o1.getFirstName()
+                	.compareTo(o2.getFirstName());
+            }
+            return result;
+        }
+    });
+    List<Person> result = males.subList(0, 2);
+    System.out.println("result = " + result);
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava8() {
+    List<Person> result = 
+        Person.NINJA_SQUAD.stream()
+            
+    System.out.println("result = " + result);
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava8() {
+    List<Person> result = 
+        Person.NINJA_SQUAD.stream()
+            .filter(p -> p.getGender() == Person.Gender.MALE)
+            
+    System.out.println("result = " + result);
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava8() {
+    List<Person> result = 
+        Person.NINJA_SQUAD.stream()
+            .filter(p -> p.getGender() == Person.Gender.MALE)
+            .sorted(Comparators.<Person, String>comparing(Person::getLastName)
+			.thenComparing(Person::getFirstName))
+            
+    System.out.println("result = " + result);
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava8() {
+    List<Person> result = 
+        Person.NINJA_SQUAD.stream()
+            .filter(p -> p.getGender() == Person.Gender.MALE)
+            .sorted(Comparators.<Person, String>comparing(Person::getLastName)
+			.thenComparing(Person::getFirstName))
+            .substream(0, 2)
+
+    System.out.println("result = " + result);
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+private static void extractWithJava8() {
+    List<Person> result = 
+        Person.NINJA_SQUAD.stream()
+            .filter(p -> p.getGender() == Person.Gender.MALE)
+            .sorted(Comparators.<Person, String>comparing(Person::getLastName)
+			.thenComparing(Person::getFirstName))
+            .substream(0, 2)
+            .collect(Collectors.toList());
+    System.out.println("result = " + result);
+}
+----
+
+== \\
+
+[{statement}]
+How does it *work* ?
+
+== \\
+[{stepwise}]
+* FileFilter
+* Runnable
+* Callable
+* ActionListener
+* Comparator
+
+[NOTES]
+====
+Chaque fois qu'on a une interface avec une seule méthode abstraite, on peut en créer une instance avec une lambda.
+Exemple: FileFilter, Runnable, Callable, ActionListener, Comparator, etc.
+====
+
+[role="terminal"]
+== \\
+* Exemple FileFilter
+[syntax="java"]
+----
+File[] textFiles = directory
+	.listFiles(f -> f.getName().endsWith(".txt"));
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+@FunctionalInterface
+----
+
+== \\
+Interfaces can now have
+[{stepwise}]
+* static methods
+* non abstract methods [detail]#(default)#
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+/**
+* Adds all the elements from the specified stream to this collection.
+*
+* @param stream source of elements to be added to this collection
+*/
+@Override
+default void addAll(Stream<? extends E> stream) {
+	stream.sequential().forEach(this::add);
+}
+----
+
+[NOTES]
+====
+C'est ce qui permet d'avoir une méthode stream() dans toutes les collections (même la vôtre), une méthode addAll() dans toutes les collections (même la vôtre). Backward compatibility!
+Les méthodes default ne peuvent pas être final, donc on peut toujours les redéfinir.
+====
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface Concatenator {
+    String concat(int a, double b);                    
+}
+----
+donne
+[syntax="java"]
+----
+(int a, double b) -> { String s = a + " " + b; }
+----
+[role="terminal"]
+
+== \\
+[syntax="java"]
+----
+interface Concatenator {
+    String concat(int a, double b);                    
+}
+----
+ou
+[syntax="java"]
+----
+(int a, double b) -> return a + " " + b;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface Concatenator {
+    String concat(int a, double b);                    
+}
+----
+ou
+[syntax="java"]
+----
+(int a, double b) -> a + " " + b;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface Concatenator {
+    String concat(int a, double b);                    
+}
+----
+ou
+[syntax="java"]
+----
+(a, b) -> a + " " + b;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface UnaryOperator {
+    int op(a);
+}	
+----
+donne
+[syntax="java"]
+----
+(a) -> a * a;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface UnaryOperator {
+    int op(a);
+}	
+----
+ou sans parenthèses
+[syntax="java"]
+----
+a -> a * a;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface Supplier {                                   
+    int get();
+}
+----
+donne
+[syntax="java"]
+----
+() -> 25;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+	int toInt(String s);
+}
+----
+avec une référence à une méthode
+[syntax="java"]
+----
+String::length
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+	int toInt(String s);
+}
+----
+identique à
+[syntax="java"]
+----
+s -> s.length()
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+	int toInt(String s);
+}
+----
+avec une référence à une méthode
+[syntax="java"]
+----
+Integer::new
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+	int toInt(String s);
+}
+----
+identique à
+[syntax="java"]
+----
+s -> new Integer(s)
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+	int toInt(String s);
+}
+----
+avec une référence à une méthode
+[syntax="java"]
+----
+Integer::parseInt
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+	int toInt(String s);
+}
+----
+identique à
+[syntax="java"]
+----
+s -> Integer.parseInt(s)
+----    
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+	int toInt(String s);
+}
+----
+avec une référence à une méthode
+[syntax="java"]
+----
+stringToIntMap::get
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+	int toInt(String s);
+}
+----
+identique à
+[syntax="java"]
+----
+s -> stringToIntMap.get(s)
+----    
+
+== \\
+
+[{statement}]
+Effectively *final* ?
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+public static List<Integer> incrementAllWith(List<Integer> list, int increment) {
+    return list.stream()
+    	.map(i -> i + increment)
+    	.boxed()
+    	.collect(Collectors.toList());
+}
+----
+
+[role="terminal"]
+== \\
+Exemple de code interdit
+[syntax="java"]
+----
+int cumulatedAge = 0; 
+persons.forEach(p -> {
+	cumulatedAge += p.getAge();
+});
+----
+
+[role="terminal"]
+== \\
+Remplacer par
+[syntax="java"]
+----
+int cumulatedAge = 
+  persons.stream().map(Person::getAge).sum();
+----
+
+== \\
+[{stepwise}]
+* Stream
+* IntStream
+* LongStream
+* DoubleStream
+
+== \\
+[{stepwise}]
+* Sequential
+* Parallel [detail]#Fork/Join#
+
+[role="terminal"]
+== \\
+1 000 000 tweets?
+[syntax="java"]
+----
+public static int maxRetweets(Set<Tweet> tweets) {
+  return tweets.parallelStream()
+    .map(t -> t.getRetweetCount())
+    .reduce(0, Math::max);
+}
+----
+
+== \\
+[{statement}]
+How does it *work* ?
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+public class DecompilationTest {
+  public static void main(String[] args) {
+    Function<Integer, String> function = i -> i.toString();
+    System.out.println("function.getClass().getName() = " + function.getClass().getName());
+  }
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+public class DecompilationTest {
+  public static void main(String[] args) throws ClassNotFoundException {
+    Class.forName("com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+    Function<Integer, String> function = i -> i.toString();
+    System.out.println("function.getClass().getName() = " + function.getClass().getName());
+  }
+}
+----
+
+== \\
+[{statement}]
+ClassNotFoundException !
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+public class DecompilationTest {
+  public static void main(String[] args) throws ClassNotFoundException {
+    Function<Integer, String> function = i -> i.toString();
+    Class.forName("com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+    System.out.println("function.getClass().getName() = " + function.getClass().getName());
+  }
+}
+----
+
+[role="terminal"]
+== \\
+javap -cp . -c -p com.ninja_squad.lambdademo.DecompilationTest
+
+[role="terminal"]
+== \\
+....
+
+public class com.ninja_squad.lambdademo.DecompilationTest {
+  public com.ninja_squad.lambdademo.DecompilationTest();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]) throws java.lang.ClassNotFoundException;
+    Code:
+       0: invokedynamic #2,  0              // InvokeDynamic #0:lambda:()Ljava/util/function/Function;
+       5: astore_1
+       6: return
+
+  private static java.lang.String lambda$0(java.lang.Integer);
+    Code:
+       0: aload_0
+       1: invokevirtual #3                  // Method java/lang/Integer.toString:()Ljava/lang/String;
+       4: areturn
+}
+....
+
+== \\
+[{statement}]
+*Conclusion*
+
+== \\
+[{stepwise}]
+* Keep it short
+* Moins de boilerplate
+* Toute interface fonctionnelle peut être une lambda
+* Inférence
+* Erreurs parfois cryptiques
+* Manque de javadoc (vous allez vous marrer)
+* IDEs
+* 8ème version de cette prés...
+
+[NOTES]
+====
+Expérience très limitée pour le moment.
+- Encore plus que pour les classes anonymes, le corps des lambda devrait être très très court. Déléguer à des méthodes si le corps fait plus d'une ou deux lignes.
+- Réduit significativement le boilerplate.
+- Idée géniale: toute interface fonctionnelle peut être implémentée sous forme de lambda. Ca va permettre d'utiliser les lambdas avec Guava et des tas d'autres APIs, sans attendre une quelconque évolution de Guava.
+- Problème principal en ce moment: l'inférence de type. Ce serait bien de pouvoir écrire .collect(Collectors.toList()) plutôt que .collect(Collectors.<String>toList()). Travail toujours en cours pour améliorer ça.
+- De nouveaux messages cryptiques du compilateur à comprendre. Pas facile facile.
+- C'est une cible mouvante. On a dû réécrire nos slides 5 fois parce qu'à chaque fois qu'on revenait dessus, tout avait changé. Ca devrait se stabiliser d'ici peu.
+- Manque de méthodes raccourcis. Par exemple: .toList() au lieu de .collect(Collectors.<String>toList())
+- Manque cruel de javadoc. Mais ça va s'améliorer.
+- Les IDEs (en tout cas IntelliJ) ne sont pas encore au point, mais le sujet est instable, donc c'est normal. Fausses inférences, signalement d'erreurs quand il n'y en a pas. Pas de signalement d'erreur quand il y en a, etc.
+
+Le developer review va bientôt commencer. A nous d'agir. Déjà maintenant, le feedback est le bienvenu.
+====
+
+
+
+
+
+
+
+
+
+

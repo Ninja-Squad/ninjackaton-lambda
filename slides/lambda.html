@@ -1489,6 +1489,569 @@ Supposons qu&#8217;on ait une liste de personnes, et qu&#8217;on veuille ne gard
 des noms et prénoms, et ne conserver que les 2 premiers.</p>
 </details>
 </section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava7() {
+    List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+    for (Person person : Person.NINJA_SQUAD) {
+
+    }
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava7() {
+    List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+    for (Person person : Person.NINJA_SQUAD) {
+        if (person.getGender() == Person.Gender.MALE) {
+            males.add(person);
+        }
+    }
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava7() {
+    List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+    for (Person person : Person.NINJA_SQUAD) {
+        if (person.getGender() == Person.Gender.MALE) {
+            males.add(person);
+        }
+    }
+    Collections.sort(males, new Comparator&lt;Person&gt;() {
+        @Override
+        public int compare(Person o1, Person o2) {
+
+        }
+    });
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava7() {
+    List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+    for (Person person : Person.NINJA_SQUAD) {
+        if (person.getGender() == Person.Gender.MALE) {
+            males.add(person);
+        }
+    }
+    Collections.sort(males, new Comparator&lt;Person&gt;() {
+        @Override
+        public int compare(Person o1, Person o2) {
+            int result = o1.getLastName()
+                        .compareTo(o2.getLastName());
+            if (result == 0) {
+                result = o1.getFirstName()
+                        .compareTo(o2.getFirstName());
+            }
+            return result;
+        }
+    });
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava7() {
+    List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+    for (Person person : Person.NINJA_SQUAD) {
+        if (person.getGender() == Person.Gender.MALE) {
+            males.add(person);
+        }
+    }
+    Collections.sort(males, new Comparator&lt;Person&gt;() {
+        @Override
+        public int compare(Person o1, Person o2) {
+            int result = o1.getLastName()
+                        .compareTo(o2.getLastName());
+            if (result == 0) {
+                result = o1.getFirstName()
+                        .compareTo(o2.getFirstName());
+            }
+            return result;
+        }
+    });
+    List&lt;Person&gt; result = males.subList(0, 2);
+    System.out.println("result = " + result);
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava8() {
+    List&lt;Person&gt; result =
+        Person.NINJA_SQUAD.stream()
+
+    System.out.println("result = " + result);
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava8() {
+    List&lt;Person&gt; result =
+        Person.NINJA_SQUAD.stream()
+            .filter(p -&gt; p.getGender() == Person.Gender.MALE)
+
+    System.out.println("result = " + result);
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava8() {
+    List&lt;Person&gt; result =
+        Person.NINJA_SQUAD.stream()
+            .filter(p -&gt; p.getGender() == Person.Gender.MALE)
+            .sorted(Comparators.&lt;Person, String&gt;comparing(Person::getLastName)
+                        .thenComparing(Person::getFirstName))
+
+    System.out.println("result = " + result);
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava8() {
+    List&lt;Person&gt; result =
+        Person.NINJA_SQUAD.stream()
+            .filter(p -&gt; p.getGender() == Person.Gender.MALE)
+            .sorted(Comparators.&lt;Person, String&gt;comparing(Person::getLastName)
+                        .thenComparing(Person::getFirstName))
+            .substream(0, 2)
+
+    System.out.println("result = " + result);
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava8() {
+    List&lt;Person&gt; result =
+        Person.NINJA_SQUAD.stream()
+            .filter(p -&gt; p.getGender() == Person.Gender.MALE)
+            .sorted(Comparators.&lt;Person, String&gt;comparing(Person::getLastName)
+                        .thenComparing(Person::getFirstName))
+            .substream(0, 2)
+            .collect(Collectors.toList());
+    System.out.println("result = " + result);
+}</code></pre>
+</div>
+</section>
+<section>
+<p class="statement">How does it <strong>work</strong> ?</p>
+</section>
+<section>
+<ul class="incremental">
+<li>
+FileFilter
+</li>
+<li>
+Runnable
+</li>
+<li>
+Callable
+</li>
+<li>
+ActionListener
+</li>
+<li>
+Comparator
+</li>
+</ul>
+<details>
+  <details><summary>Notes</summary></details>
+<p>Chaque fois qu&#8217;on a une interface avec une seule méthode abstraite, on peut en créer une instance avec une lambda.
+Exemple: FileFilter, Runnable, Callable, ActionListener, Comparator, etc.</p>
+</details>
+</section>
+<section class="terminal">
+<ul>
+<li>
+Exemple FileFilter
+</li>
+</ul>
+<div class="listing">
+<pre class="java"><code>File[] textFiles = directory
+        .listFiles(f -&gt; f.getName().endsWith(".txt"));</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>@FunctionalInterface</code></pre>
+</div>
+</section>
+<section>
+<p>Interfaces can now have</p>
+<ul class="incremental">
+<li>
+static methods
+</li>
+<li>
+non abstract methods <span class="detail">(default)</span>
+</li>
+</ul>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>/**
+* Adds all the elements from the specified stream to this collection.
+*
+* @param stream source of elements to be added to this collection
+*/
+@Override
+default void addAll(Stream&lt;? extends E&gt; stream) {
+        stream.sequential().forEach(this::add);
+}</code></pre>
+</div>
+<details>
+  <details><summary>Notes</summary></details>
+<p>C&#8217;est ce qui permet d&#8217;avoir une méthode stream() dans toutes les collections (même la vôtre), une méthode addAll() dans toutes les collections (même la vôtre). Backward compatibility!
+Les méthodes default ne peuvent pas être final, donc on peut toujours les redéfinir.</p>
+</details>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface Concatenator {
+    String concat(int a, double b);
+}</code></pre>
+</div>
+<p>donne</p>
+<div class="listing">
+<pre class="java"><code>(int a, double b) -&gt; { String s = a + " " + b; }</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface Concatenator {
+    String concat(int a, double b);
+}</code></pre>
+</div>
+<p>ou</p>
+<div class="listing">
+<pre class="java"><code>(int a, double b) -&gt; return a + " " + b;</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface Concatenator {
+    String concat(int a, double b);
+}</code></pre>
+</div>
+<p>ou</p>
+<div class="listing">
+<pre class="java"><code>(int a, double b) -&gt; a + " " + b;</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface Concatenator {
+    String concat(int a, double b);
+}</code></pre>
+</div>
+<p>ou</p>
+<div class="listing">
+<pre class="java"><code>(a, b) -&gt; a + " " + b;</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface UnaryOperator {
+    int op(a);
+}</code></pre>
+</div>
+<p>donne</p>
+<div class="listing">
+<pre class="java"><code>(a) -&gt; a * a;</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface UnaryOperator {
+    int op(a);
+}</code></pre>
+</div>
+<p>ou sans parenthèses</p>
+<div class="listing">
+<pre class="java"><code>a -&gt; a * a;</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface Supplier {
+    int get();
+}</code></pre>
+</div>
+<p>donne</p>
+<div class="listing">
+<pre class="java"><code>() -&gt; 25;</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface StringToIntFunction {
+        int toInt(String s);
+}</code></pre>
+</div>
+<p>avec une référence à une méthode</p>
+<div class="listing">
+<pre class="java"><code>String::length</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface StringToIntFunction {
+        int toInt(String s);
+}</code></pre>
+</div>
+<p>identique à</p>
+<div class="listing">
+<pre class="java"><code>s -&gt; s.length()</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface StringToIntFunction {
+        int toInt(String s);
+}</code></pre>
+</div>
+<p>avec une référence à une méthode</p>
+<div class="listing">
+<pre class="java"><code>Integer::new</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface StringToIntFunction {
+        int toInt(String s);
+}</code></pre>
+</div>
+<p>identique à</p>
+<div class="listing">
+<pre class="java"><code>s -&gt; new Integer(s)</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface StringToIntFunction {
+        int toInt(String s);
+}</code></pre>
+</div>
+<p>avec une référence à une méthode</p>
+<div class="listing">
+<pre class="java"><code>Integer::parseInt</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface StringToIntFunction {
+        int toInt(String s);
+}</code></pre>
+</div>
+<p>identique à</p>
+<div class="listing">
+<pre class="java"><code>s -&gt; Integer.parseInt(s)</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface StringToIntFunction {
+        int toInt(String s);
+}</code></pre>
+</div>
+<p>avec une référence à une méthode</p>
+<div class="listing">
+<pre class="java"><code>stringToIntMap::get</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>interface StringToIntFunction {
+        int toInt(String s);
+}</code></pre>
+</div>
+<p>identique à</p>
+<div class="listing">
+<pre class="java"><code>s -&gt; stringToIntMap.get(s)</code></pre>
+</div>
+</section>
+<section>
+<p class="statement">Effectively <strong>final</strong> ?</p>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>public static List&lt;Integer&gt; incrementAllWith(List&lt;Integer&gt; list, int increment) {
+    return list.stream()
+        .map(i -&gt; i + increment)
+        .boxed()
+        .collect(Collectors.toList());
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<p>Exemple de code interdit</p>
+<div class="listing">
+<pre class="java"><code>int cumulatedAge = 0;
+persons.forEach(p -&gt; {
+        cumulatedAge += p.getAge();
+});</code></pre>
+</div>
+</section>
+<section class="terminal">
+<p>Remplacer par</p>
+<div class="listing">
+<pre class="java"><code>int cumulatedAge =
+  persons.stream().map(Person::getAge).sum();</code></pre>
+</div>
+</section>
+<section>
+<ul class="incremental">
+<li>
+Stream
+</li>
+<li>
+IntStream
+</li>
+<li>
+LongStream
+</li>
+<li>
+DoubleStream
+</li>
+</ul>
+</section>
+<section>
+<ul class="incremental">
+<li>
+Sequential
+</li>
+<li>
+Parallel <span class="detail">Fork/Join</span>
+</li>
+</ul>
+</section>
+<section class="terminal">
+<p>1 000 000 tweets?</p>
+<div class="listing">
+<pre class="java"><code>public static int maxRetweets(Set&lt;Tweet&gt; tweets) {
+  return tweets.parallelStream()
+    .map(t -&gt; t.getRetweetCount())
+    .reduce(0, Math::max);
+}</code></pre>
+</div>
+</section>
+<section>
+<p class="statement">How does it <strong>work</strong> ?</p>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>public class DecompilationTest {
+  public static void main(String[] args) {
+    Function&lt;Integer, String&gt; function = i -&gt; i.toString();
+    System.out.println("function.getClass().getName() = " + function.getClass().getName());
+  }
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>public class DecompilationTest {
+  public static void main(String[] args) throws ClassNotFoundException {
+    Class.forName("com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+    Function&lt;Integer, String&gt; function = i -&gt; i.toString();
+    System.out.println("function.getClass().getName() = " + function.getClass().getName());
+  }
+}</code></pre>
+</div>
+</section>
+<section>
+<p class="statement">ClassNotFoundException !</p>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>public class DecompilationTest {
+  public static void main(String[] args) throws ClassNotFoundException {
+    Function&lt;Integer, String&gt; function = i -&gt; i.toString();
+    Class.forName("com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+    System.out.println("function.getClass().getName() = " + function.getClass().getName());
+  }
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<p>javap -cp . -c -p com.ninja_squad.lambdademo.DecompilationTest</p>
+</section>
+<section class="terminal">
+<div class="literal">
+<pre class="literal">public class com.ninja_squad.lambdademo.DecompilationTest {
+  public com.ninja_squad.lambdademo.DecompilationTest();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."&lt;init&gt;":()V
+       4: return
+
+  public static void main(java.lang.String[]) throws java.lang.ClassNotFoundException;
+    Code:
+       0: invokedynamic #2,  0              // InvokeDynamic #0:lambda:()Ljava/util/function/Function;
+       5: astore_1
+       6: return
+
+  private static java.lang.String lambda$0(java.lang.Integer);
+    Code:
+       0: aload_0
+       1: invokevirtual #3                  // Method java/lang/Integer.toString:()Ljava/lang/String;
+       4: areturn
+}</pre>
+</div>
+</section>
+<section>
+<p class="statement"><strong>Conclusion</strong></p>
+</section>
+<section>
+<ul class="incremental">
+<li>
+Keep it short
+</li>
+<li>
+Moins de boilerplate
+</li>
+<li>
+Toute interface fonctionnelle peut être une lambda
+</li>
+<li>
+Inférence
+</li>
+<li>
+Erreurs parfois cryptiques
+</li>
+<li>
+Manque de javadoc (vous allez vous marrer)
+</li>
+<li>
+IDEs
+</li>
+<li>
+8ème version de cette prés&#8230;
+</li>
+</ul>
+<details>
+  <details><summary>Notes</summary></details>
+<p>Expérience très limitée pour le moment.
+- Encore plus que pour les classes anonymes, le corps des lambda devrait être très très court. Déléguer à des méthodes si le corps fait plus d&#8217;une ou deux lignes.
+- Réduit significativement le boilerplate.
+- Idée géniale: toute interface fonctionnelle peut être implémentée sous forme de lambda. Ca va permettre d&#8217;utiliser les lambdas avec Guava et des tas d&#8217;autres APIs, sans attendre une quelconque évolution de Guava.
+- Problème principal en ce moment: l&#8217;inférence de type. Ce serait bien de pouvoir écrire .collect(Collectors.toList()) plutôt que .collect(Collectors.&lt;String&gt;toList()). Travail toujours en cours pour améliorer ça.
+- De nouveaux messages cryptiques du compilateur à comprendre. Pas facile facile.
+- C&#8217;est une cible mouvante. On a dû réécrire nos slides 5 fois parce qu'à chaque fois qu&#8217;on revenait dessus, tout avait changé. Ca devrait se stabiliser d&#8217;ici peu.
+- Manque de méthodes raccourcis. Par exemple: .toList() au lieu de .collect(Collectors.&lt;String&gt;toList())
+- Manque cruel de javadoc. Mais ça va s&#8217;améliorer.
+- Les IDEs (en tout cas IntelliJ) ne sont pas encore au point, mais le sujet est instable, donc c&#8217;est normal. Fausses inférences, signalement d&#8217;erreurs quand il n&#8217;y en a pas. Pas de signalement d&#8217;erreur quand il y en a, etc.</p>
+<p>Le developer review va bientôt commencer. A nous d&#8217;agir. Déjà maintenant, le feedback est le bienvenu.</p>
+</details>
+</section>
     <script>
 //<![CDATA[
 //   __  __  __       .  __   ___  __
