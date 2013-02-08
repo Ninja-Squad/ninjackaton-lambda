@@ -747,6 +747,11 @@ int cumulatedAge =
 ----
 
 == \\
+
+[{statement}]
+a *Stream* ?
+
+== \\
 [{stepwise}]
 * Stream
 * IntStream
