@@ -50,7 +50,7 @@ Qui utilise *Java7* ?
 
 == \\
 
-[quote, Noone - ever]
+[quote, No one - ever]
 ____
 Java7 a changé ma façon de développer!
 ____
