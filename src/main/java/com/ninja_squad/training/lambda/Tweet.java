@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
  */
 public final class Tweet {
 
+    /**
+     * The list of tweets to play with
+     */
     public static final List<Tweet> TWEETS =
         Collections.unmodifiableList(Arrays.asList(new Tweet(1L,
                                                              "@clacote",
@@ -90,10 +93,19 @@ public final class Tweet {
         return retweetCount;
     }
 
+    /**
+     * Extracts the hash tags from the tweet
+     * @return a set of hash tags, with the leading <code>#</code>
+     */
     public Set<String> getHashTags() {
-        return Arrays.stream(text.split("[\\s.,;:]")).filter(s -> s.startsWith("#")).collect(Collectors.<String>toSet());
+        return Arrays.stream(text.split("[\\s.,;:]")).filter(s -> s.startsWith("#")).collect(Collectors.toSet());
     }
 
+    /**
+     * Tests if the given hash tag is contained into the tweet
+     * @param hashTag a hash tag, with a leading <code>#</code>
+     * @return
+     */
     public boolean containsHashTag(String hashTag) {
         return text.contains(hashTag);
     }
@@ -101,7 +113,8 @@ public final class Tweet {
     @Override
     public String toString() {
         return "Tweet{" +
-               "sender='" + sender + '\'' +
+               "id=" + id +
+               ", sender='" + sender + '\'' +
                ", text='" + text + '\'' +
                ", date=" + date +
                ", retweetCount=" + retweetCount +
