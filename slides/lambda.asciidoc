@@ -50,7 +50,7 @@ Qui utilise *Java7* ?
 
 == \\
 
-[quote, Noone - ever]
+[quote, No one - ever]
 ____
 Java7 a changé ma façon de développer!
 ____
@@ -745,6 +745,11 @@ Remplacer par
 int cumulatedAge = 
     persons.stream().map(Person::getAge).sum();
 ----
+
+== \\
+
+[{statement}]
+a *Stream* ?
 
 == \\
 [{stepwise}]
