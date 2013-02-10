@@ -16,7 +16,7 @@ Ninja Squad
 v1.0, Feb 12, 2013
 :title: A la découverte des lambdas
 :website: http://ninja-squad.com
-:slidesurl: ninjasquad.github.com/
+:slidesurl: https://github.com/Ninja-Squad/ninjackaton-lambda/
 :imagesdir: images
 :backend: dzslides
 :linkcss: true
@@ -27,11 +27,11 @@ v1.0, Feb 12, 2013
 // disable syntax highlighting unless turned on explicitly
 :syntax: no-highlight
 
-[role="terminal"]
 == \\
-----
+
+image::logo.png[height=400]
+    
 https://github.com/Ninja-Squad/ninjackaton-lambda/
-----
 
 == \\
 
@@ -78,13 +78,23 @@ List<String> list = new ArrayList<>();
 [role="terminal"]
 == \\
 * Strings in switch
+[syntax="java"]
+----
+switch(variable){
+
+    case "ninja": ...
+
+}
+----
 
 [role="terminal"]
 == \\
 * Better literals
 [syntax="java"]
 ----
-0b11000011, 1_000_000
+0b11000011
+
+1_000_000
 ----
 
 [role="terminal"]
@@ -145,7 +155,7 @@ Quelles sont les *nouveautés* ?
  - annotation du meme type repetable
  @Foo(1) @Foo(2) au lieu de @Foos({@Foo(1), @Foo(2)})
  - plus de perm gen
- - Lambda (idée: faire un gros slide avec la lettre grecque en minuscule): c'est le plus gros changement, sans doute plus important encore que l'introduction des génériques
+ - Lambda : c'est le plus gros changement, sans doute plus important encore que l'introduction des génériques
 ====
 
 == \\
@@ -155,6 +165,10 @@ image::lambda.png[align="center", height=500]
 [{topic}]
 == Vers un peu de fonctionnel!
 
+== \\
+
+image::hipster-ariel-irl.jpg[align="center", height=500]
+
 [role="terminal"]
 == \\
 * Java
@@ -162,9 +176,11 @@ image::lambda.png[align="center", height=500]
 ----
   List<Integer> list = Arrays.asList(1, 2, 3);
   List<String> transformed = new ArrayList<>();
+
   for (Integer i : list) {
       transformed.add(String.valueOf(i * 1000));
   }
+
   System.out.println(transformed);
 ----
 
@@ -235,6 +251,7 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         
     }
@@ -247,6 +264,7 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -261,6 +279,7 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -281,6 +300,7 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -309,6 +329,7 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -329,6 +350,7 @@ private static void extractWithJava7() {
         }
     });
     List<Person> result = males.subList(0, 2);
+
     System.out.println("result = " + result);
 }
 ----
@@ -420,6 +442,34 @@ private static void extractWithJava8() {
 How does it *work* ?
 
 == \\
+Interfaces can now have
+[{stepwise}]
+* static methods
+* non abstract methods [detail]#(default)#
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+/**
+ * Sort this list using the supplied {@code Comparator} 
+ * to compare elements.
+ *
+ * @param c the {@code Comparator} used to compare list elements
+ */
+public default void sort(Comparator<? super E> c) {
+    Collections.<E>sort(this, c);
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+@FunctionalInterface
+----
+
+== \\
 [{stepwise}]
 * FileFilter
 * Runnable
@@ -442,39 +492,17 @@ File[] textFiles =
     directory.listFiles(f -> f.getName().endsWith(".txt"));
 ----
 
-[role="terminal"]
-== \\
-[syntax="java"]
-----
-@FunctionalInterface
-----
-
-== \\
-Interfaces can now have
-[{stepwise}]
-* static methods
-* non abstract methods [detail]#(default)#
-
-[role="terminal"]
-== \\
-[syntax="java"]
-----
-/**
- * Sort this list using the supplied {@code Comparator} 
- * to compare elements.
- *
- * @param c the {@code Comparator} used to compare list elements
- */
-public default void sort(Comparator<? super E> c) {
-    Collections.<E>sort(this, c);
-}
-----
-
 [NOTES]
 ====
 C'est ce qui permet d'avoir une méthode stream() dans toutes les collections (même la vôtre), une méthode addAll() dans toutes les collections (même la vôtre). Backward compatibility!
 Les méthodes default ne peuvent pas être final, donc on peut toujours les redéfinir.
 ====
+
+
+== \\
+
+[{statement}]
+*Exemples*
 
 [role="terminal"]
 == \\
@@ -785,7 +813,9 @@ How does it *work* ?
 ----
 public class DecompilationTest {
     public static void main(String[] args) {
+
         Function<Integer, String> function = i -> i.toString();
+
         System.out.println("function.getClass().getName() = " 
                            + function.getClass().getName());
     }
@@ -798,16 +828,20 @@ public class DecompilationTest {
 ----
 public static void main(String[] args) 
                             throws ClassNotFoundException {
+
     Class.forName(
         "com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+
     Function<Integer, String> function = i -> i.toString();
+
     System.out.println("function.getClass().getName() = " 
                        + function.getClass().getName());
 }
 ----
 
 == \\
-[{statement}]
+
+image::surprise.gif[height=200]
 ClassNotFoundException !
 
 [role="terminal"]
@@ -816,9 +850,12 @@ ClassNotFoundException !
 ----
 public static void main(String[] args) 
                             throws ClassNotFoundException {
+
     Function<Integer, String> function = i -> i.toString();
+
     Class.forName(
         "com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+
     System.out.println("function.getClass().getName() = " 
                        + function.getClass().getName());
 }
@@ -867,6 +904,18 @@ public class com.ninja_squad.lambdademo.DecompilationTest {
 * Manque de javadoc (vous allez vous marrer)
 * IDEs
 * 8ème version de cette prés...
+
+== \\
+[{stepwise}]
+* Content and bad jokes by @jbnizet and @cedric_exbrayat
+* Proof readed and approved by @agnes_crepet and @clacote
+
+== \\
+[{stepwise}]
+* Using asciidoc and dzslide with the great theme of @mojavelinux
+* Yes, the lambda image is the Half Life logo
+* Hipster Ariel photo by fremen9 (shamelessly stolen from @bodil)
+
 
 [NOTES]
 ====
