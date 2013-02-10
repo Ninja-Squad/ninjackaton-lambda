@@ -16,7 +16,7 @@ Ninja Squad
 v1.0, Feb 12, 2013
 :title: A la découverte des lambdas
 :website: http://ninja-squad.com
-:slidesurl: ninjasquad.github.com/
+:slidesurl: https://github.com/Ninja-Squad/ninjackaton-lambda/
 :imagesdir: images
 :backend: dzslides
 :linkcss: true
@@ -27,11 +27,11 @@ v1.0, Feb 12, 2013
 // disable syntax highlighting unless turned on explicitly
 :syntax: no-highlight
 
-[{topic}]
-== {slidesurl}
-----
-http://github.com/ninja-squad/
-----
+== \\
+
+image::logo.png[height=400]
+    
+https://github.com/Ninja-Squad/ninjackaton-lambda/
 
 == \\
 
@@ -50,7 +50,7 @@ Qui utilise *Java7* ?
 
 == \\
 
-[quote, Noone - Never]
+[quote, No one - ever]
 ____
 Java7 a changé ma façon de développer!
 ____
@@ -78,13 +78,23 @@ List<String> list = new ArrayList<>();
 [role="terminal"]
 == \\
 * Strings in switch
+[syntax="java"]
+----
+switch(variable){
+
+    case "ninja": ...
+
+}
+----
 
 [role="terminal"]
 == \\
 * Better literals
 [syntax="java"]
 ----
-0b11000011, 1_000_000
+0b11000011
+
+1_000_000
 ----
 
 [role="terminal"]
@@ -96,7 +106,7 @@ try {
     ...
 }
 catch (SQLException | IOException e) {
-		log(e);
+    log(e);
 }
 ----
 
@@ -105,8 +115,9 @@ catch (SQLException | IOException e) {
 * Try with resources
 [syntax="java"]
 ----
-try (InputStream in = new FileInputStream(inputFile); OutputStream out = new FileOutputSTream(outputFile)) {
-	...   
+try (InputStream in = new FileInputStream(inputFile);
+     OutputStream out = new FileOutputStream(outputFile)) {
+    ...   
 }
 // automatically closed!
 ----
@@ -144,15 +155,19 @@ Quelles sont les *nouveautés* ?
  - annotation du meme type repetable
  @Foo(1) @Foo(2) au lieu de @Foos({@Foo(1), @Foo(2)})
  - plus de perm gen
- - Lambda (idée: faire un gros slide avec la lettre grecque en minuscule): c'est le plus gros changement, sans doute plus important encore que l'introduction des génériques
+ - Lambda : c'est le plus gros changement, sans doute plus important encore que l'introduction des génériques
 ====
 
 == \\
 
-image:lambda.png[role="pull-right"]
+image::lambda.png[align="center", height=500]
 
 [{topic}]
 == Vers un peu de fonctionnel!
+
+== \\
+
+image::hipster-ariel-irl.jpg[align="center", height=500]
 
 [role="terminal"]
 == \\
@@ -161,21 +176,25 @@ image:lambda.png[role="pull-right"]
 ----
   List<Integer> list = Arrays.asList(1, 2, 3);
   List<String> transformed = new ArrayList<>();
+
   for (Integer i : list) {
-      transformed.add(String.valueOf(i * 1000);
+      transformed.add(String.valueOf(i * 1000));
   }
+
   System.out.println(transformed);
 ----
 
 [role="terminal"]
 == \\
-* Javascript
+* JavaScript
 [syntax="javascript"]
 ----
 var array = [1, 2, 3];
+
 var transformed = $.map(array, function(value) {
     return (value * 1000) + " ";
-}
+});
+
 console.log(transformed);
 ----
 
@@ -185,14 +204,17 @@ console.log(transformed);
 [syntax="java"]
 ----
 List<Integer> list = Arrays.asList(1, 2, 3);
+
 List<String> transformed = 
-	FluentIterable.from(list)
-		.transform(new Function<Integer, String>() {
-			@Override
-			public String apply(Integer input) {
-				return String.valueOf(input * 1000);
-			})
-		.toList();
+    FluentIterable.from(list)
+                  .transform(new Function<Integer, String>() {
+                      @Override
+                      public String apply(Integer input) {
+                          return String.valueOf(input * 1000);
+                      }
+                  })
+                  .toList();
+
 System.out.println(transformed);
 ----
 
@@ -207,10 +229,12 @@ C'est assez lourd. On perd du temps à écrire la classe anonyme, il y a une ins
 [syntax="java"]
 ----
 List<Integer> list = Arrays.asList(1, 2, 3);
+
 List<String> transformed = 
-	list.stream()
-		.map(input -> String.valueOf(input * 1000))
-		.collect(Collectors.toList());
+    list.stream()
+        .map(input -> String.valueOf(input * 1000))
+        .collect(Collectors.toList());
+
 System.out.println(transformed);
 ----
 
@@ -229,6 +253,7 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         
     }
@@ -241,6 +266,7 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -255,6 +281,7 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -275,6 +302,7 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -283,11 +311,13 @@ private static void extractWithJava7() {
     Collections.sort(males, new Comparator<Person>() {
         @Override
         public int compare(Person o1, Person o2) {
-            int result = o1.getLastName()
-        		.compareTo(o2.getLastName());
+            int result = 
+                o1.getLastName()
+                  .compareTo(o2.getLastName());
             if (result == 0) {
-                result = o1.getFirstName()
-                	.compareTo(o2.getFirstName());
+                result = 
+                    o1.getFirstName()
+                      .compareTo(o2.getFirstName());
             }
             return result;
         }
@@ -301,6 +331,7 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava7() {
     List<Person> males = new ArrayList<>();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -309,16 +340,19 @@ private static void extractWithJava7() {
     Collections.sort(males, new Comparator<Person>() {
         @Override
         public int compare(Person o1, Person o2) {
-            int result = o1.getLastName()
-        		.compareTo(o2.getLastName());
+            int result = 
+                o1.getLastName()
+                  .compareTo(o2.getLastName());
             if (result == 0) {
-                result = o1.getFirstName()
-                	.compareTo(o2.getFirstName());
+                result = 
+                    o1.getFirstName()
+                      .compareTo(o2.getFirstName());
             }
             return result;
         }
     });
     List<Person> result = males.subList(0, 2);
+
     System.out.println("result = " + result);
 }
 ----
@@ -329,7 +363,8 @@ private static void extractWithJava7() {
 ----
 private static void extractWithJava8() {
     List<Person> result = 
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
             
     System.out.println("result = " + result);
 }
@@ -341,7 +376,8 @@ private static void extractWithJava8() {
 ----
 private static void extractWithJava8() {
     List<Person> result = 
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
             .filter(p -> p.getGender() == Person.Gender.MALE)
             
     System.out.println("result = " + result);
@@ -354,11 +390,13 @@ private static void extractWithJava8() {
 ----
 private static void extractWithJava8() {
     List<Person> result = 
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
             .filter(p -> p.getGender() == Person.Gender.MALE)
-            .sorted(Comparators.<Person, String>comparing(Person::getLastName)
-			.thenComparing(Person::getFirstName))
-            
+            .sorted(Comparators
+                .<Person, String>comparing(Person::getLastName)
+                .thenComparing(Person::getFirstName))
+                
     System.out.println("result = " + result);
 }
 ----
@@ -369,10 +407,12 @@ private static void extractWithJava8() {
 ----
 private static void extractWithJava8() {
     List<Person> result = 
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
             .filter(p -> p.getGender() == Person.Gender.MALE)
-            .sorted(Comparators.<Person, String>comparing(Person::getLastName)
-			.thenComparing(Person::getFirstName))
+            .sorted(Comparators
+                .<Person, String>comparing(Person::getLastName)
+                .thenComparing(Person::getFirstName))
             .substream(0, 2)
 
     System.out.println("result = " + result);
@@ -385,12 +425,15 @@ private static void extractWithJava8() {
 ----
 private static void extractWithJava8() {
     List<Person> result = 
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
             .filter(p -> p.getGender() == Person.Gender.MALE)
-            .sorted(Comparators.<Person, String>comparing(Person::getLastName)
-			.thenComparing(Person::getFirstName))
+            .sorted(Comparators
+                .<Person, String>comparing(Person::getLastName)
+                .thenComparing(Person::getFirstName))
             .substream(0, 2)
             .collect(Collectors.toList());
+            
     System.out.println("result = " + result);
 }
 ----
@@ -399,6 +442,34 @@ private static void extractWithJava8() {
 
 [{statement}]
 How does it *work* ?
+
+== \\
+Interfaces can now have
+[{stepwise}]
+* static methods
+* non abstract methods [detail]#(default)#
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+/**
+ * Sort this list using the supplied {@code Comparator} 
+ * to compare elements.
+ *
+ * @param c the {@code Comparator} used to compare list elements
+ */
+public default void sort(Comparator<? super E> c) {
+    Collections.<E>sort(this, c);
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+@FunctionalInterface
+----
 
 == \\
 [{stepwise}]
@@ -419,36 +490,8 @@ Exemple: FileFilter, Runnable, Callable, ActionListener, Comparator, etc.
 * Exemple FileFilter
 [syntax="java"]
 ----
-File[] textFiles = directory
-	.listFiles(f -> f.getName().endsWith(".txt"));
-----
-
-[role="terminal"]
-== \\
-[syntax="java"]
-----
-@FunctionalInterface
-----
-
-== \\
-Interfaces can now have
-[{stepwise}]
-* static methods
-* non abstract methods [detail]#(default)#
-
-[role="terminal"]
-== \\
-[syntax="java"]
-----
-/**
-* Adds all the elements from the specified stream to this collection.
-*
-* @param stream source of elements to be added to this collection
-*/
-@Override
-default void addAll(Stream<? extends E> stream) {
-	stream.sequential().forEach(this::add);
-}
+File[] textFiles = 
+    directory.listFiles(f -> f.getName().endsWith(".txt"));
 ----
 
 [NOTES]
@@ -456,6 +499,12 @@ default void addAll(Stream<? extends E> stream) {
 C'est ce qui permet d'avoir une méthode stream() dans toutes les collections (même la vôtre), une méthode addAll() dans toutes les collections (même la vôtre). Backward compatibility!
 Les méthodes default ne peuvent pas être final, donc on peut toujours les redéfinir.
 ====
+
+
+== \\
+
+[{statement}]
+*Exemples*
 
 [role="terminal"]
 == \\
@@ -468,7 +517,10 @@ interface Concatenator {
 donne
 [syntax="java"]
 ----
-(int a, double b) -> { String s = a + " " + b; }
+(int a, double b) -> { 
+    String s = a + " " + b; 
+    return s;
+}
 ----
 [role="terminal"]
 
@@ -545,7 +597,7 @@ a -> a * a;
 == \\
 [syntax="java"]
 ----
-interface Supplier {                                   
+interface NumberSupplier {                                   
     int get();
 }
 ----
@@ -560,7 +612,7 @@ donne
 [syntax="java"]
 ----
 interface StringToIntFunction {                        
-	int toInt(String s);
+    int toInt(String s);
 }
 ----
 avec une référence à une méthode
@@ -574,8 +626,13 @@ String::length
 [syntax="java"]
 ----
 interface StringToIntFunction {                        
-	int toInt(String s);
+    int toInt(String s);
 }
+----
+avec une référence à une méthode
+[syntax="java"]
+----
+String::length
 ----
 identique à
 [syntax="java"]
@@ -588,10 +645,10 @@ s -> s.length()
 [syntax="java"]
 ----
 interface StringToIntFunction {                        
-	int toInt(String s);
+    int toInt(String s);
 }
 ----
-avec une référence à une méthode
+avec une référence à un constructeur
 [syntax="java"]
 ----
 Integer::new
@@ -602,8 +659,13 @@ Integer::new
 [syntax="java"]
 ----
 interface StringToIntFunction {                        
-	int toInt(String s);
+    int toInt(String s);
 }
+----
+avec une référence à un constructeur
+[syntax="java"]
+----
+Integer::new
 ----
 identique à
 [syntax="java"]
@@ -616,10 +678,10 @@ s -> new Integer(s)
 [syntax="java"]
 ----
 interface StringToIntFunction {                        
-	int toInt(String s);
+    int toInt(String s);
 }
 ----
-avec une référence à une méthode
+avec une référence à une méthode statique
 [syntax="java"]
 ----
 Integer::parseInt
@@ -630,8 +692,13 @@ Integer::parseInt
 [syntax="java"]
 ----
 interface StringToIntFunction {                        
-	int toInt(String s);
+    int toInt(String s);
 }
+----
+avec une référence à une méthode statique
+[syntax="java"]
+----
+Integer::parseInt
 ----
 identique à
 [syntax="java"]
@@ -644,10 +711,10 @@ s -> Integer.parseInt(s)
 [syntax="java"]
 ----
 interface StringToIntFunction {                        
-	int toInt(String s);
+    int toInt(String s);
 }
 ----
-avec une référence à une méthode
+avec une référence à une méthode sur un autre objet
 [syntax="java"]
 ----
 stringToIntMap::get
@@ -658,8 +725,13 @@ stringToIntMap::get
 [syntax="java"]
 ----
 interface StringToIntFunction {                        
-	int toInt(String s);
+    int toInt(String s);
 }
+----
+avec une référence à une méthode sur un autre objet
+[syntax="java"]
+----
+stringToIntMap::get
 ----
 identique à
 [syntax="java"]
@@ -676,11 +748,11 @@ Effectively *final* ?
 == \\
 [syntax="java"]
 ----
-public static List<Integer> incrementAllWith(List<Integer> list, int increment) {
+List<Integer> incrementAllWith(List<Integer> list, int inc) {
     return list.stream()
-    	.map(i -> i + increment)
-    	.boxed()
-    	.collect(Collectors.toList());
+               .map(i -> i + inc)
+               .boxed()
+               .collect(Collectors.toList());
 }
 ----
 
@@ -691,7 +763,7 @@ Exemple de code interdit
 ----
 int cumulatedAge = 0; 
 persons.forEach(p -> {
-	cumulatedAge += p.getAge();
+    cumulatedAge += p.getAge();
 });
 ----
 
@@ -701,8 +773,13 @@ Remplacer par
 [syntax="java"]
 ----
 int cumulatedAge = 
-  persons.stream().map(Person::getAge).sum();
+    persons.stream().map(Person::getAge).sum();
 ----
+
+== \\
+
+[{statement}]
+a *Stream* ?
 
 == \\
 [{stepwise}]
@@ -722,9 +799,9 @@ int cumulatedAge =
 [syntax="java"]
 ----
 public static int maxRetweets(Set<Tweet> tweets) {
-  return tweets.parallelStream()
-    .map(t -> t.getRetweetCount())
-    .reduce(0, Math::max);
+    return tweets.parallelStream()
+                 .map(t -> t.getRetweetCount())
+                 .reduce(0, Math::max);
 }
 ----
 
@@ -737,10 +814,13 @@ How does it *work* ?
 [syntax="java"]
 ----
 public class DecompilationTest {
-  public static void main(String[] args) {
-    Function<Integer, String> function = i -> i.toString();
-    System.out.println("function.getClass().getName() = " + function.getClass().getName());
-  }
+    public static void main(String[] args) {
+
+        Function<Integer, String> function = i -> i.toString();
+
+        System.out.println("function.getClass().getName() = " 
+                           + function.getClass().getName());
+    }
 }
 ----
 
@@ -748,29 +828,38 @@ public class DecompilationTest {
 == \\
 [syntax="java"]
 ----
-public class DecompilationTest {
-  public static void main(String[] args) throws ClassNotFoundException {
-    Class.forName("com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+public static void main(String[] args) 
+                            throws ClassNotFoundException {
+
+    Class.forName(
+        "com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+
     Function<Integer, String> function = i -> i.toString();
-    System.out.println("function.getClass().getName() = " + function.getClass().getName());
-  }
+
+    System.out.println("function.getClass().getName() = " 
+                       + function.getClass().getName());
 }
 ----
 
 == \\
-[{statement}]
+
+image::surprise.gif[height=200]
 ClassNotFoundException !
 
 [role="terminal"]
 == \\
 [syntax="java"]
 ----
-public class DecompilationTest {
-  public static void main(String[] args) throws ClassNotFoundException {
+public static void main(String[] args) 
+                            throws ClassNotFoundException {
+
     Function<Integer, String> function = i -> i.toString();
-    Class.forName("com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
-    System.out.println("function.getClass().getName() = " + function.getClass().getName());
-  }
+
+    Class.forName(
+        "com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+
+    System.out.println("function.getClass().getName() = " 
+                       + function.getClass().getName());
 }
 ----
 
@@ -817,6 +906,18 @@ public class com.ninja_squad.lambdademo.DecompilationTest {
 * Manque de javadoc (vous allez vous marrer)
 * IDEs
 * 8ème version de cette prés...
+
+== \\
+[{stepwise}]
+* Content and bad jokes by @jbnizet and @cedric_exbrayat
+* Proof readed and approved by @agnes_crepet and @clacote
+
+== \\
+[{stepwise}]
+* Using asciidoc and dzslide with the great theme of @mojavelinux
+* Yes, the lambda image is the Half Life logo
+* Hipster Ariel photo by fremen9 (shamelessly stolen from @bodil)
+
 
 [NOTES]
 ====

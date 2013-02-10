@@ -988,11 +988,11 @@ section {
       <h1>A la découverte des lambdas</h1>
       <footer>Ninja Squad</footer>
     </section>
-<section class="topic">
-<h2>ninjasquad.github.com/</h2>
-<div class="listing">
-<pre class="no-highlight"><code>http://github.com/ninja-squad/</code></pre>
-</div>
+<section>
+
+<img src="images/logo.png" alt="logo.png" height="400">
+
+<p><a href="https://github.com/Ninja-Squad/ninjackaton-lambda/">https://github.com/Ninja-Squad/ninjackaton-lambda/</a></p>
 </section>
 <section>
 <p class="statement">Qui utilise <strong>Java5</strong> ?</p>
@@ -1006,7 +1006,7 @@ section {
 <section>
 <blockquote>
 <p>Java7 a changé ma façon de développer!</p>
- <cite>Noone - Never</cite></blockquote>
+ <cite>No one - ever</cite></blockquote>
 <details>
   <details><summary>Notes</summary></details>
 <p>Qu&#8217;y a-t-il eu de nouveau dans Java 7?
@@ -1033,6 +1033,13 @@ Diamond
 Strings in switch
 </li>
 </ul>
+<div class="listing">
+<pre class="java"><code>switch(variable){
+
+    case "ninja": ...
+
+}</code></pre>
+</div>
 </section>
 <section class="terminal">
 <ul>
@@ -1041,7 +1048,9 @@ Better literals
 </li>
 </ul>
 <div class="listing">
-<pre class="java"><code>0b11000011, 1_000_000</code></pre>
+<pre class="java"><code>0b11000011
+
+1_000_000</code></pre>
 </div>
 </section>
 <section class="terminal">
@@ -1055,7 +1064,7 @@ Multicatch
     ...
 }
 catch (SQLException | IOException e) {
-                log(e);
+    log(e);
 }</code></pre>
 </div>
 </section>
@@ -1066,8 +1075,9 @@ Try with resources
 </li>
 </ul>
 <div class="listing">
-<pre class="java"><code>try (InputStream in = new FileInputStream(inputFile); OutputStream out = new FileOutputSTream(outputFile)) {
-        ...
+<pre class="java"><code>try (InputStream in = new FileInputStream(inputFile);
+     OutputStream out = new FileOutputStream(outputFile)) {
+    ...
 }
 // automatically closed!</code></pre>
 </div>
@@ -1128,293 +1138,23 @@ annotation du meme type repetable
 plus de perm gen
 </li>
 <li>
-Lambda (idée: faire un gros slide avec la lettre grecque en minuscule): c&#8217;est le plus gros changement, sans doute plus important encore que l&#8217;introduction des génériques
+Lambda : c&#8217;est le plus gros changement, sans doute plus important encore que l&#8217;introduction des génériques
 </li>
 </ul>
 </details>
 </section>
 <section>
-<p><span class="image pull-right">
-<img alt="lambda.png" src="data:image/png;base64,
-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
-TkSuQmCC">
-</span></p>
+
+<img src="images/lambda.png" alt="lambda.png" height="500">
+
 </section>
 <section class="topic">
 <h2>Vers un peu de fonctionnel!</h2>
+</section>
+<section>
+
+<img src="images/hipster-ariel-irl.jpg" alt="hipster-ariel-irl.jpg" height="500">
+
 </section>
 <section class="terminal">
 <ul>
@@ -1425,23 +1165,27 @@ Java
 <div class="listing">
 <pre class="java"><code>  List&lt;Integer&gt; list = Arrays.asList(1, 2, 3);
   List&lt;String&gt; transformed = new ArrayList&lt;&gt;();
+
   for (Integer i : list) {
-      transformed.add(String.valueOf(i * 1000);
+      transformed.add(String.valueOf(i * 1000));
   }
+
   System.out.println(transformed);</code></pre>
 </div>
 </section>
 <section class="terminal">
 <ul>
 <li>
-Javascript
+JavaScript
 </li>
 </ul>
 <div class="listing">
 <pre class="javascript"><code>var array = [1, 2, 3];
+
 var transformed = $.map(array, function(value) {
     return (value * 1000) + " ";
-}
+});
+
 console.log(transformed);</code></pre>
 </div>
 </section>
@@ -1453,14 +1197,17 @@ Java avec Guava
 </ul>
 <div class="listing">
 <pre class="java"><code>List&lt;Integer&gt; list = Arrays.asList(1, 2, 3);
+
 List&lt;String&gt; transformed =
-        FluentIterable.from(list)
-                .transform(new Function&lt;Integer, String&gt;() {
-                        @Override
-                        public String apply(Integer input) {
-                                return String.valueOf(input * 1000);
-                        })
-                .toList();
+    FluentIterable.from(list)
+                  .transform(new Function&lt;Integer, String&gt;() {
+                      @Override
+                      public String apply(Integer input) {
+                          return String.valueOf(input * 1000);
+                      }
+                  })
+                  .toList();
+
 System.out.println(transformed);</code></pre>
 </div>
 <details>
@@ -1476,10 +1223,12 @@ Lambda style
 </ul>
 <div class="listing">
 <pre class="java"><code>List&lt;Integer&gt; list = Arrays.asList(1, 2, 3);
+
 List&lt;String&gt; transformed =
-        list.stream()
-                .map(input -&gt; String.valueOf(input * 1000))
-                .collect(Collectors.toList());
+    list.stream()
+        .map(input -&gt; String.valueOf(input * 1000))
+        .collect(Collectors.toList());
+
 System.out.println(transformed);</code></pre>
 </div>
 <details>
@@ -1495,6 +1244,7 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava7() {
     List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+
     for (Person person : Person.NINJA_SQUAD) {
 
     }
@@ -1505,6 +1255,7 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava7() {
     List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -1517,6 +1268,7 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava7() {
     List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -1535,6 +1287,7 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava7() {
     List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -1543,11 +1296,13 @@ des noms et prénoms, et ne conserver que les 2 premiers.
     Collections.sort(males, new Comparator&lt;Person&gt;() {
         @Override
         public int compare(Person o1, Person o2) {
-            int result = o1.getLastName()
-                        .compareTo(o2.getLastName());
+            int result =
+                o1.getLastName()
+                  .compareTo(o2.getLastName());
             if (result == 0) {
-                result = o1.getFirstName()
-                        .compareTo(o2.getFirstName());
+                result =
+                    o1.getFirstName()
+                      .compareTo(o2.getFirstName());
             }
             return result;
         }
@@ -1559,6 +1314,7 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava7() {
     List&lt;Person&gt; males = new ArrayList&lt;&gt;();
+
     for (Person person : Person.NINJA_SQUAD) {
         if (person.getGender() == Person.Gender.MALE) {
             males.add(person);
@@ -1567,25 +1323,18 @@ des noms et prénoms, et ne conserver que les 2 premiers.
     Collections.sort(males, new Comparator&lt;Person&gt;() {
         @Override
         public int compare(Person o1, Person o2) {
-            int result = o1.getLastName()
-                        .compareTo(o2.getLastName());
+            int result =
+                o1.getLastName()
+                  .compareTo(o2.getLastName());
             if (result == 0) {
-                result = o1.getFirstName()
-                        .compareTo(o2.getFirstName());
+                result =
+                    o1.getFirstName()
+                      .compareTo(o2.getFirstName());
             }
             return result;
         }
     });
     List&lt;Person&gt; result = males.subList(0, 2);
-    System.out.println("result = " + result);
-}</code></pre>
-</div>
-</section>
-<section class="terminal">
-<div class="listing">
-<pre class="java"><code>private static void extractWithJava8() {
-    List&lt;Person&gt; result =
-        Person.NINJA_SQUAD.stream()
 
     System.out.println("result = " + result);
 }</code></pre>
@@ -1595,7 +1344,19 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava8() {
     List&lt;Person&gt; result =
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
+
+    System.out.println("result = " + result);
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>private static void extractWithJava8() {
+    List&lt;Person&gt; result =
+        Person.NINJA_SQUAD
+            .stream()
             .filter(p -&gt; p.getGender() == Person.Gender.MALE)
 
     System.out.println("result = " + result);
@@ -1606,10 +1367,12 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava8() {
     List&lt;Person&gt; result =
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
             .filter(p -&gt; p.getGender() == Person.Gender.MALE)
-            .sorted(Comparators.&lt;Person, String&gt;comparing(Person::getLastName)
-                        .thenComparing(Person::getFirstName))
+            .sorted(Comparators
+                .&lt;Person, String&gt;comparing(Person::getLastName)
+                .thenComparing(Person::getFirstName))
 
     System.out.println("result = " + result);
 }</code></pre>
@@ -1619,10 +1382,12 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava8() {
     List&lt;Person&gt; result =
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
             .filter(p -&gt; p.getGender() == Person.Gender.MALE)
-            .sorted(Comparators.&lt;Person, String&gt;comparing(Person::getLastName)
-                        .thenComparing(Person::getFirstName))
+            .sorted(Comparators
+                .&lt;Person, String&gt;comparing(Person::getLastName)
+                .thenComparing(Person::getFirstName))
             .substream(0, 2)
 
     System.out.println("result = " + result);
@@ -1633,18 +1398,50 @@ des noms et prénoms, et ne conserver que les 2 premiers.
 <div class="listing">
 <pre class="java"><code>private static void extractWithJava8() {
     List&lt;Person&gt; result =
-        Person.NINJA_SQUAD.stream()
+        Person.NINJA_SQUAD
+            .stream()
             .filter(p -&gt; p.getGender() == Person.Gender.MALE)
-            .sorted(Comparators.&lt;Person, String&gt;comparing(Person::getLastName)
-                        .thenComparing(Person::getFirstName))
+            .sorted(Comparators
+                .&lt;Person, String&gt;comparing(Person::getLastName)
+                .thenComparing(Person::getFirstName))
             .substream(0, 2)
             .collect(Collectors.toList());
+
     System.out.println("result = " + result);
 }</code></pre>
 </div>
 </section>
 <section>
 <p class="statement">How does it <strong>work</strong> ?</p>
+</section>
+<section>
+<p>Interfaces can now have</p>
+<ul class="incremental">
+<li>
+static methods
+</li>
+<li>
+non abstract methods <span class="detail">(default)</span>
+</li>
+</ul>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>/**
+ * Sort this list using the supplied {@code Comparator}
+ * to compare elements.
+ *
+ * @param c the {@code Comparator} used to compare list elements
+ */
+public default void sort(Comparator&lt;? super E&gt; c) {
+    Collections.&lt;E&gt;sort(this, c);
+}</code></pre>
+</div>
+</section>
+<section class="terminal">
+<div class="listing">
+<pre class="java"><code>@FunctionalInterface</code></pre>
+</div>
 </section>
 <section>
 <ul class="incremental">
@@ -1677,43 +1474,17 @@ Exemple FileFilter
 </li>
 </ul>
 <div class="listing">
-<pre class="java"><code>File[] textFiles = directory
-        .listFiles(f -&gt; f.getName().endsWith(".txt"));</code></pre>
-</div>
-</section>
-<section class="terminal">
-<div class="listing">
-<pre class="java"><code>@FunctionalInterface</code></pre>
-</div>
-</section>
-<section>
-<p>Interfaces can now have</p>
-<ul class="incremental">
-<li>
-static methods
-</li>
-<li>
-non abstract methods <span class="detail">(default)</span>
-</li>
-</ul>
-</section>
-<section class="terminal">
-<div class="listing">
-<pre class="java"><code>/**
-* Adds all the elements from the specified stream to this collection.
-*
-* @param stream source of elements to be added to this collection
-*/
-@Override
-default void addAll(Stream&lt;? extends E&gt; stream) {
-        stream.sequential().forEach(this::add);
-}</code></pre>
+<pre class="java"><code>File[] textFiles =
+    directory.listFiles(f -&gt; f.getName().endsWith(".txt"));</code></pre>
 </div>
 <details>
   <details><summary>Notes</summary></details>
 <p>C&#8217;est ce qui permet d&#8217;avoir une méthode stream() dans toutes les collections (même la vôtre), une méthode addAll() dans toutes les collections (même la vôtre). Backward compatibility!
 Les méthodes default ne peuvent pas être final, donc on peut toujours les redéfinir.</p>
 </details>
+</section>
+<section>
+<p class="statement"><strong>Exemples</strong></p>
 </section>
 <section class="terminal">
 <div class="listing">
@@ -1723,7 +1494,10 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 </div>
 <p>donne</p>
 <div class="listing">
-<pre class="java"><code>(int a, double b) -&gt; { String s = a + " " + b; }</code></pre>
+<pre class="java"><code>(int a, double b) -&gt; {
+    String s = a + " " + b;
+    return s;
+}</code></pre>
 </div>
 </section>
 <section class="terminal">
@@ -1783,7 +1557,7 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 </section>
 <section class="terminal">
 <div class="listing">
-<pre class="java"><code>interface Supplier {
+<pre class="java"><code>interface NumberSupplier {
     int get();
 }</code></pre>
 </div>
@@ -1795,7 +1569,7 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>interface StringToIntFunction {
-        int toInt(String s);
+    int toInt(String s);
 }</code></pre>
 </div>
 <p>avec une référence à une méthode</p>
@@ -1806,8 +1580,12 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>interface StringToIntFunction {
-        int toInt(String s);
+    int toInt(String s);
 }</code></pre>
+</div>
+<p>avec une référence à une méthode</p>
+<div class="listing">
+<pre class="java"><code>String::length</code></pre>
 </div>
 <p>identique à</p>
 <div class="listing">
@@ -1817,10 +1595,10 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>interface StringToIntFunction {
-        int toInt(String s);
+    int toInt(String s);
 }</code></pre>
 </div>
-<p>avec une référence à une méthode</p>
+<p>avec une référence à un constructeur</p>
 <div class="listing">
 <pre class="java"><code>Integer::new</code></pre>
 </div>
@@ -1828,8 +1606,12 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>interface StringToIntFunction {
-        int toInt(String s);
+    int toInt(String s);
 }</code></pre>
+</div>
+<p>avec une référence à un constructeur</p>
+<div class="listing">
+<pre class="java"><code>Integer::new</code></pre>
 </div>
 <p>identique à</p>
 <div class="listing">
@@ -1839,10 +1621,10 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>interface StringToIntFunction {
-        int toInt(String s);
+    int toInt(String s);
 }</code></pre>
 </div>
-<p>avec une référence à une méthode</p>
+<p>avec une référence à une méthode statique</p>
 <div class="listing">
 <pre class="java"><code>Integer::parseInt</code></pre>
 </div>
@@ -1850,8 +1632,12 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>interface StringToIntFunction {
-        int toInt(String s);
+    int toInt(String s);
 }</code></pre>
+</div>
+<p>avec une référence à une méthode statique</p>
+<div class="listing">
+<pre class="java"><code>Integer::parseInt</code></pre>
 </div>
 <p>identique à</p>
 <div class="listing">
@@ -1861,10 +1647,10 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>interface StringToIntFunction {
-        int toInt(String s);
+    int toInt(String s);
 }</code></pre>
 </div>
-<p>avec une référence à une méthode</p>
+<p>avec une référence à une méthode sur un autre objet</p>
 <div class="listing">
 <pre class="java"><code>stringToIntMap::get</code></pre>
 </div>
@@ -1872,8 +1658,12 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>interface StringToIntFunction {
-        int toInt(String s);
+    int toInt(String s);
 }</code></pre>
+</div>
+<p>avec une référence à une méthode sur un autre objet</p>
+<div class="listing">
+<pre class="java"><code>stringToIntMap::get</code></pre>
 </div>
 <p>identique à</p>
 <div class="listing">
@@ -1885,11 +1675,11 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 </section>
 <section class="terminal">
 <div class="listing">
-<pre class="java"><code>public static List&lt;Integer&gt; incrementAllWith(List&lt;Integer&gt; list, int increment) {
+<pre class="java"><code>List&lt;Integer&gt; incrementAllWith(List&lt;Integer&gt; list, int inc) {
     return list.stream()
-        .map(i -&gt; i + increment)
-        .boxed()
-        .collect(Collectors.toList());
+               .map(i -&gt; i + inc)
+               .boxed()
+               .collect(Collectors.toList());
 }</code></pre>
 </div>
 </section>
@@ -1898,7 +1688,7 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 <div class="listing">
 <pre class="java"><code>int cumulatedAge = 0;
 persons.forEach(p -&gt; {
-        cumulatedAge += p.getAge();
+    cumulatedAge += p.getAge();
 });</code></pre>
 </div>
 </section>
@@ -1906,8 +1696,11 @@ persons.forEach(p -&gt; {
 <p>Remplacer par</p>
 <div class="listing">
 <pre class="java"><code>int cumulatedAge =
-  persons.stream().map(Person::getAge).sum();</code></pre>
+    persons.stream().map(Person::getAge).sum();</code></pre>
 </div>
+</section>
+<section>
+<p class="statement">a <strong>Stream</strong> ?</p>
 </section>
 <section>
 <ul class="incremental">
@@ -1939,9 +1732,9 @@ Parallel <span class="detail">Fork/Join</span>
 <p>1 000 000 tweets?</p>
 <div class="listing">
 <pre class="java"><code>public static int maxRetweets(Set&lt;Tweet&gt; tweets) {
-  return tweets.parallelStream()
-    .map(t -&gt; t.getRetweetCount())
-    .reduce(0, Math::max);
+    return tweets.parallelStream()
+                 .map(t -&gt; t.getRetweetCount())
+                 .reduce(0, Math::max);
 }</code></pre>
 </div>
 </section>
@@ -1951,35 +1744,51 @@ Parallel <span class="detail">Fork/Join</span>
 <section class="terminal">
 <div class="listing">
 <pre class="java"><code>public class DecompilationTest {
-  public static void main(String[] args) {
-    Function&lt;Integer, String&gt; function = i -&gt; i.toString();
-    System.out.println("function.getClass().getName() = " + function.getClass().getName());
-  }
+    public static void main(String[] args) {
+
+        Function&lt;Integer, String&gt; function = i -&gt; i.toString();
+
+        System.out.println("function.getClass().getName() = "
+                           + function.getClass().getName());
+    }
 }</code></pre>
 </div>
 </section>
 <section class="terminal">
 <div class="listing">
-<pre class="java"><code>public class DecompilationTest {
-  public static void main(String[] args) throws ClassNotFoundException {
-    Class.forName("com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+<pre class="java"><code>public static void main(String[] args)
+                            throws ClassNotFoundException {
+
+    Class.forName(
+        "com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+
     Function&lt;Integer, String&gt; function = i -&gt; i.toString();
-    System.out.println("function.getClass().getName() = " + function.getClass().getName());
-  }
+
+    System.out.println("function.getClass().getName() = "
+                       + function.getClass().getName());
 }</code></pre>
 </div>
 </section>
 <section>
-<p class="statement">ClassNotFoundException !</p>
+
+<img src="images/surprise.gif" alt="surprise.gif" height="200">
+
+<div class="">
+</div>
+<p>ClassNotFoundException !</p>
 </section>
 <section class="terminal">
 <div class="listing">
-<pre class="java"><code>public class DecompilationTest {
-  public static void main(String[] args) throws ClassNotFoundException {
+<pre class="java"><code>public static void main(String[] args)
+                            throws ClassNotFoundException {
+
     Function&lt;Integer, String&gt; function = i -&gt; i.toString();
-    Class.forName("com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
-    System.out.println("function.getClass().getName() = " + function.getClass().getName());
-  }
+
+    Class.forName(
+        "com.ninja_squad.lambdademo.DecompilationTest$$Lambda$1");
+
+    System.out.println("function.getClass().getName() = "
+                       + function.getClass().getName());
 }</code></pre>
 </div>
 </section>
@@ -2037,6 +1846,29 @@ IDEs
 </li>
 <li>
 8ème version de cette prés&#8230;
+</li>
+</ul>
+</section>
+<section>
+<ul class="incremental">
+<li>
+Content and bad jokes by @jbnizet and @cedric_exbrayat
+</li>
+<li>
+Proof readed and approved by @agnes_crepet and @clacote
+</li>
+</ul>
+</section>
+<section>
+<ul class="incremental">
+<li>
+Using asciidoc and dzslide with the great theme of @mojavelinux
+</li>
+<li>
+Yes, the lambda image is the Half Life logo
+</li>
+<li>
+Hipster Ariel photo by fremen9 (shamelessly stolen from @bodil)
 </li>
 </ul>
 <details>
