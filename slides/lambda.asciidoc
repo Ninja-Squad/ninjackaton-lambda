@@ -935,18 +935,3 @@ Expérience très limitée pour le moment.
 Le developer review va bientôt commencer. A nous d'agir. Déjà maintenant, le feedback est le bienvenu.
 ====
 
-
-
-
-
-
-
-
-
-
-=======
-====
->>>>>>> pages
-=======
-====
->>>>>>> c19e7a9973b161f86f20fec5f3c6594d546c7e52
