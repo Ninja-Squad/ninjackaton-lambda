@@ -18,7 +18,7 @@ public class TP {
     }
 
     /**
-     * Faites la même chose, sans appeler getDate() ni System.out.println()
+     * Faites la mÃªme chose, sans appeler getDate() ni System.out.println()
      */
     public static void step2() {
         // TODO
@@ -41,7 +41,7 @@ public class TP {
     }
 
     /**
-     * Extrayez une List<String> qui contient les senders des tweets, sans duplicata, triés par ordre alphabétique
+     * Extrayez une List<String> qui contient les senders des tweets, sans duplicata, triÃ©s par ordre alphabÃ©tique
      */
     public static List<String> step5() {
         // TODO
@@ -57,7 +57,7 @@ public class TP {
     }
 
     /**
-     * Extrayez une List<Tweet> qui contient les tweets contenant le hashtag #lambda, triés par sender puis par date
+     * Extrayez une List<Tweet> qui contient les tweets contenant le hashtag #lambda, triÃ©s par sender puis par date
      */
     public static List<Tweet> step7() {
         // TODO
@@ -73,9 +73,17 @@ public class TP {
     }
 
     /**
-     * Créez une Map<String, List<Tweet>> qui contient, pour chaque sender, les tweets envoyés par ce sender
+     * CrÃ©ez une Map<String, List<Tweet>> qui contient, pour chaque sender, les tweets envoyÃ©s par ce sender
      */
     public static Map<String, List<Tweet>> step9() {
+        // TODO
+        return null;
+    }
+
+    /**
+     * Extrayez deux listes: les tweets qui contiennent le hash tag #lambda, et ceux qui ne les contiennent pas.
+     */
+    public static Map<Boolean, List<Tweet>> step10() {
         // TODO
         return null;
     }
@@ -95,17 +103,9 @@ public class TP {
     }
 
     /**
-     * Extrayez deux listes: les tweets qui contiennent le hash tag #lambda, et ceux qui ne les contiennent pas.
-     */
-    public static Map<Boolean, List<Tweet>> step10() {
-        // TODO
-        return null;
-    }
-
-    /**
-     * Calculez le total et la moyenne du nombre de caractères des textes des tweets.
+     * Calculez le total et la moyenne du nombre de caractÃ¨res des textes des tweets.
      * Hints:
-     *     Créez une class Stats
+     *     CrÃ©ez une class Stats
      *     Utilisez stream.collect(..., ..., ...) ou stream.map(...).reduce(...)
      */
     public static Stats step11() {
@@ -113,7 +113,7 @@ public class TP {
     }
 
     /**
-     * Faites la même chose, mais de manière parallèle.
+     * Faites la mÃªme chose, mais de maniÃ¨re parrallÃ¨le
      */
     public static Stats step12() {
         return null;

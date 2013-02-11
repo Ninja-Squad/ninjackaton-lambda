@@ -801,7 +801,7 @@ a *Stream* ?
 public static int maxRetweets(Set<Tweet> tweets) {
     return tweets.parallelStream()
                  .map(t -> t.getRetweetCount())
-                 .reduce(0, Math::max);
+                 .max();
 }
 ----
 
