@@ -1732,7 +1732,7 @@ Parallel <span class="detail">Fork/Join</span>
 <pre class="java"><code>public static int maxRetweets(Set&lt;Tweet&gt; tweets) {
     return tweets.parallelStream()
                  .map(t -&gt; t.getRetweetCount())
-                 .reduce(0, Math::max);
+                 .max();
 }</code></pre>
 </div>
 </section>
@@ -1771,8 +1771,6 @@ Parallel <span class="detail">Fork/Join</span>
 
 <img src="images/surprise.gif" alt="surprise.gif" height="200">
 
-<div class="">
-</div>
 <p>ClassNotFoundException !</p>
 </section>
 <section class="terminal">
