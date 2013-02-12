@@ -5,7 +5,7 @@ Ninjackaton Lambda
 
 # TP
 
-Une classe Tweet vous est fournie. Cette classe représente un Tweet, et contient une constante ALL qui contient 
+Une classe Tweet vous est fournie. Cette classe représente un Tweet, et contient une constante TWEETS qui contient 
 une list de Tweets. Le principe de l'exercice sera de manipuler cette liste de tweets afin d'en extraire des 
 informations.
 
