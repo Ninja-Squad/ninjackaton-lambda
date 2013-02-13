@@ -3,6 +3,10 @@ ninjackaton-lambda
 
 Ninjackaton Lambda
 
+# Slides
+
+Les slides sur Java 8 et les lambdas : http://lambda.ninjackaton.ninja-squad.com
+
 # TP
 
 Une classe Tweet vous est fournie. Cette classe représente un Tweet, et contient une constante TWEETS qui contient 
