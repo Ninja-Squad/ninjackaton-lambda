@@ -2,12 +2,14 @@ package com.ninja_squad.training.lambda;
 
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -18,14 +20,35 @@ import static org.junit.Assert.*;
  */
 public class TPTest {
 
+    private void executeWithWrappedSysout(Runnable block) {
+        PrintStream original = System.out;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream out = new PrintStream(baos) {
+                @Override
+                public void println(Object o) {
+                    super.println(o);
+                    original.println(o);
+                }
+            };
+            System.setOut(out);
+            block.run();
+            String s = new String(baos.toByteArray());
+            assertTrue(s.startsWith("Thu Jan 12"));
+        }
+        finally {
+            System.setOut(original);
+        }
+    }
+
     @Test
     public void step1() {
-        TP.step1();
+        executeWithWrappedSysout(TP::step1);
     }
 
     @Test
     public void step2() {
-        TP.step2();
+        executeWithWrappedSysout(TP::step2);
     }
 
     @Test
@@ -108,8 +131,8 @@ public class TPTest {
     @Test
     public void step10() {
         Map<Boolean, List<Tweet>> partition = TP.step10();
-        List<Tweet> withLambda = partition.get(true);
-        List<Tweet> withoutLambda = partition.get(false);
+        Collection<Tweet> withLambda = partition.get(true);
+        Collection<Tweet> withoutLambda = partition.get(false);
 
         assertEquals(Arrays.asList(1L, 2L, 3L, 6L),
                      withLambda.stream().map(Tweet::getId).collect(Collectors.toList()));

@@ -11,7 +11,7 @@ import java.util.Set;
 public class TP {
 
     /**
-     * Extrayez une List<String> qui contient les senders des tweets
+     * Ecrivez les dates des tweets sur la sortie standard
      */
     public static void step1() {
         // TODO
@@ -109,6 +109,7 @@ public class TP {
      *     Utilisez stream.collect(..., ..., ...) ou stream.map(...).reduce(...)
      */
     public static Stats step11() {
+        // TODO
         return null;
     }
 
@@ -116,6 +117,7 @@ public class TP {
      * Faites la même chose, mais de manière parrallèle
      */
     public static Stats step12() {
+        // TODO
         return null;
     }
 }
