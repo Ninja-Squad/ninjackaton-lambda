@@ -1,7 +1,6 @@
 package com.ninja_squad.training.lambda;
 
-import java.util.Comparators;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -80,8 +79,8 @@ public class TP {
         return Tweet.TWEETS
                     .stream()
                     .filter(t -> t.containsHashTag("#lambda"))
-                    .sorted(Comparators.<Tweet, String>comparing((Tweet t) -> t.getSender())
-                                       .thenComparing((Tweet t) -> t.getDate()))
+                    .sorted(Comparator.comparing(Tweet::getSender)
+                                      .thenComparing(Tweet::getDate))
                     .collect(Collectors.toList());
     }
 
@@ -141,7 +140,6 @@ public class TP {
      * Hints:
      *     Utilisez stream.collect(..., ..., ...) ou stream.map(...).reduce(...)
      */
-
     public static int step13() {
         // TODO
         return 0;
