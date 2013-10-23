@@ -88,36 +88,41 @@ public class TP {
         return null;
     }
 
-    public static class Stats {
+    /**
+     * Calculez le total du nombre de caractères des textes des tweets.
+     * Hints:
+     *     Utilisez un {@link java.util.stream.IntStream}
+     */
+    public static int step11() {
         // TODO
-
-        public int getAverage() {
-            // TODO
-            return 0;
-        }
-
-        public int getTotal() {
-            // TODO
-            return 0;
-        }
+        return 0;
     }
 
     /**
-     * Calculez le total et la moyenne du nombre de caractères des textes des tweets.
+     * Calculez la moyenne du nombre de caractères des textes des tweets.
      * Hints:
-     *     Créez une class Stats
+     *     Utilisez un {@link java.util.stream.IntStream}
+     */
+    public static int step12() {
+        // TODO
+        return 0;
+    }
+
+    /**
+     * Même chose, mais en calculant manuellement la somme.
+     * Hints:
      *     Utilisez stream.collect(..., ..., ...) ou stream.map(...).reduce(...)
      */
-    public static Stats step11() {
+    public static int step13() {
         // TODO
-        return null;
+        return 0;
     }
 
     /**
      * Faites la même chose, mais de manière parrallèle
      */
-    public static Stats step12() {
+    public static int step14() {
         // TODO
-        return null;
+        return 0;
     }
 }
