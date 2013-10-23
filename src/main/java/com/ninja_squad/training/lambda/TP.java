@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 /**
  * Le TP Lambda
+ *
  * @author JB
  */
 public class TP {
@@ -24,9 +25,9 @@ public class TP {
      */
     public static void step2() {
         Tweet.TWEETS
-             .stream()
-             .map(Tweet::getDate)
-             .forEach(System.out::println);
+                .stream()
+                .map(Tweet::getDate)
+                .forEach(System.out::println);
     }
 
     /**
@@ -34,9 +35,9 @@ public class TP {
      */
     public static List<String> step3() {
         return Tweet.TWEETS
-                    .stream()
-                    .map(Tweet::getSender)
-                    .collect(Collectors.toList());
+                .stream()
+                .map(Tweet::getSender)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -44,10 +45,10 @@ public class TP {
      */
     public static List<String> step4() {
         return Tweet.TWEETS
-                    .stream()
-                    .map(Tweet::getSender)
-                    .distinct()
-                    .collect(Collectors.toList());
+                .stream()
+                .map(Tweet::getSender)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     /**
@@ -55,11 +56,11 @@ public class TP {
      */
     public static List<String> step5() {
         return Tweet.TWEETS
-                    .stream()
-                    .map(Tweet::getSender)
-                    .distinct()
-                    .sorted()
-                    .collect(Collectors.toList());
+                .stream()
+                .map(Tweet::getSender)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     /**
@@ -67,9 +68,9 @@ public class TP {
      */
     public static List<Tweet> step6() {
         return Tweet.TWEETS
-                    .stream()
-                    .filter(t -> t.containsHashTag("#lambda"))
-                    .collect(Collectors.toList());
+                .stream()
+                .filter(t -> t.containsHashTag("#lambda"))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -77,11 +78,11 @@ public class TP {
      */
     public static List<Tweet> step7() {
         return Tweet.TWEETS
-                    .stream()
-                    .filter(t -> t.containsHashTag("#lambda"))
-                    .sorted(Comparator.comparing(Tweet::getSender)
-                                      .thenComparing(Tweet::getDate))
-                    .collect(Collectors.toList());
+                .stream()
+                .filter(t -> t.containsHashTag("#lambda"))
+                .sorted(Comparator.comparing(Tweet::getSender)
+                                  .thenComparing(Tweet::getDate))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -89,9 +90,9 @@ public class TP {
      */
     public static Set<String> step8() {
         return Tweet.TWEETS
-                    .stream()
-                    .flatMap(t -> t.getHashTags().stream())
-                    .collect(Collectors.toSet());
+                .stream()
+                .flatMap(t -> t.getHashTags().stream())
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -99,9 +100,9 @@ public class TP {
      */
     public static Map<String, List<Tweet>> step9() {
         Map<String, List<Tweet>> tweetsPerUser =
-            Tweet.TWEETS
-                 .stream()
-                 .collect(Collectors.groupingBy(Tweet::getSender, Collectors.toList()));
+                Tweet.TWEETS
+                        .stream()
+                        .collect(Collectors.groupingBy(Tweet::getSender, Collectors.toList()));
         return tweetsPerUser;
     }
 
@@ -110,46 +111,58 @@ public class TP {
      */
     public static Map<Boolean, List<Tweet>> step10() {
         return Tweet.TWEETS
-                    .stream()
-                    .collect(Collectors.partitioningBy(t -> t.containsHashTag("#lambda")));
+                .stream()
+                .collect(Collectors.partitioningBy(t -> t.containsHashTag("#lambda")));
     }
 
 
     /**
      * Calculez le total du nombre de caractères des textes des tweets.
      * Hints:
-     *     Utilisez un {@link java.util.stream.IntStream}
+     * Utilisez un {@link java.util.stream.IntStream}
      */
     public static int step11() {
-        // TODO
-        return 0;
+        return Tweet.TWEETS
+                .stream()
+                .mapToInt(t -> t.getText().length())
+                .sum();
     }
 
     /**
      * Calculez la moyenne du nombre de caractères des textes des tweets.
      * Hints:
-     *     Utilisez un {@link java.util.stream.IntStream}
+     * Utilisez un {@link java.util.stream.IntStream}
      */
     public static int step12() {
-        // TODO
-        return 0;
+        return (int) Tweet.TWEETS
+                .stream()
+                .mapToInt(t -> t.getText().length())
+                .average()
+                .getAsDouble();
     }
 
     /**
      * Même chose, mais en calculant manuellement la somme.
      * Hints:
-     *     Utilisez stream.collect(..., ..., ...) ou stream.map(...).reduce(...)
+     * Utilisez stream.collect(..., ..., ...) ou stream.mapToInt(...).reduce(...)
      */
     public static int step13() {
-        // TODO
-        return 0;
+        return Tweet.TWEETS
+                .stream()
+                .mapToInt(t -> t.getText().length())
+                .reduce(Integer::sum)
+                .getAsInt();
     }
 
     /**
      * Faites la même chose, mais de manière parrallèle
      */
     public static int step14() {
-        // TODO
-        return 0;
+        return Tweet.TWEETS
+                .stream()
+                .parallel()
+                .mapToInt(t -> t.getText().length())
+                .reduce(Integer::sum)
+                .getAsInt();
     }
 }
