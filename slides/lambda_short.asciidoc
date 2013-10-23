@@ -134,10 +134,9 @@ Les méthodes default ne peuvent pas être final, donc on peut toujours les red�
 [syntax="java"]
 ----
 /**
- * Sort this list using the supplied {@code Comparator} 
+ * Sorts this list using the supplied {@code Comparator}
  * to compare elements.
- *
- * @param c the {@code Comparator} used to compare list elements
+ * [...]
  */
 public default void sort(Comparator<? super E> c) {
     Collections.<E>sort(this, c);
