@@ -1,0 +1,511 @@
+//
+// Export to...
+//
+// dzslides with embedded assets:
+// asciidoc lambda.asciidoc
+//
+// dzslides with embedded assets:
+// asciidoc -a data-uri -a linkcss! lambda.asciidoc
+//
+// HTML5:
+// asciidoc -b html5 -o outline.html lambda.asciidoc
+//
+A la découverte des lambdas
+===========================
+Ninja Squad
+v1.0, Feb 12, 2013
+:title: A la découverte des lambdas
+:website: http://ninja-squad.com
+:slidesurl: https://github.com/Ninja-Squad/ninjackaton-lambda/
+:imagesdir: images
+:backend: dzslides
+:linkcss: true
+:dzslides-style: stormy
+:dzslides-transition: fade
+:dzslides-fonts: family=Yanone+Kaffeesatz:400,700,200,300&family=Cedarville+Cursive
+:dzslides-highlight: monokai
+// disable syntax highlighting unless turned on explicitly
+:syntax: no-highlight
+
+== \\
+
+image::logo.png[height=300]
+image::lambda.png[height=300]
+    
+https://github.com/Ninja-Squad/ninjackaton-lambda/
+
+== \\
+
+[{topic}]
+== Vers un peu de fonctionnel!
+
+== \\
+
+image::hipster-ariel-irl.jpg[align="center", height=500]
+
+[role="terminal"]
+== \\
+* Java
+[syntax="java"]
+----
+  List<Integer> list = Arrays.asList(1, 2, 3);
+  List<String> transformed = new ArrayList<>();
+
+  for (Integer i : list) {
+      transformed.add(String.valueOf(i * 1000));
+  }
+
+  System.out.println(transformed);
+----
+
+[role="terminal"]
+== \\
+* JavaScript
+[syntax="javascript"]
+----
+var array = [1, 2, 3];
+
+var transformed = $.map(array, function(value) {
+    return (value * 1000) + " ";
+});
+
+console.log(transformed);
+----
+
+[role="terminal"]
+== \\
+* Java avec Guava
+[syntax="java"]
+----
+List<Integer> list = Arrays.asList(1, 2, 3);
+
+List<String> transformed = 
+    FluentIterable.from(list)
+                  .transform(new Function<Integer, String>() {
+                      @Override
+                      public String apply(Integer input) {
+                          return String.valueOf(input * 1000);
+                      }
+                  })
+                  .toList();
+
+System.out.println(transformed);
+----
+
+[NOTES]
+====
+C'est assez lourd. On perd du temps à écrire la classe anonyme, il y a une instanciation de classe à chaque fois, le code est peu lisible, et finalement, les seules parties intéressantes sont l'appel à transform(), et l'appel à String.valueOf(). Le reste, c'est du boilerplate.
+====
+
+[role="terminal"]
+== \\
+* Lambda style
+[syntax="java"]
+----
+List<Integer> list = Arrays.asList(1, 2, 3);
+
+List<String> transformed = 
+    list.stream()
+        .map(input -> String.valueOf(input * 1000))
+        .collect(Collectors.toList());
+
+System.out.println(transformed);
+----
+== \\
+
+[{statement}]
+How does it *work* ?
+
+== \\
+Interfaces can now have
+[{stepwise}]
+* static methods
+* non abstract methods [detail]#(default)#
+
+[NOTES]
+====
+C'est ce qui permet d'avoir une méthode stream() dans toutes les collections (même la vôtre), une méthode addAll() dans toutes les collections (même la vôtre). Backward compatibility!
+Les méthodes default ne peuvent pas être final, donc on peut toujours les redéfinir.
+====
+
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+/**
+ * Sorts this list using the supplied {@code Comparator}
+ * to compare elements.
+ * [...]
+ */
+public default void sort(Comparator<? super E> c) {
+    Collections.<E>sort(this, c);
+}
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+@FunctionalInterface
+----
+
+== \\
+[{stepwise}]
+* FileFilter
+* Runnable
+* Callable
+* ActionListener
+* Comparator
+
+[NOTES]
+====
+Chaque fois qu'on a une interface avec une seule méthode abstraite, on peut en créer une instance avec une lambda.
+Exemple: FileFilter, Runnable, Callable, ActionListener, Comparator, etc.
+====
+
+== \\
+
+[{statement}]
+*Exemples*
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface Concatenator {
+    String concat(int a, double b);                    
+}
+----
+donne
+[syntax="java"]
+----
+(int a, double b) -> { 
+    String s = a + " " + b; 
+    return s;
+}
+----
+[role="terminal"]
+
+== \\
+[syntax="java"]
+----
+interface Concatenator {
+    String concat(int a, double b);                    
+}
+----
+ou
+[syntax="java"]
+----
+(int a, double b) -> return a + " " + b;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface Concatenator {
+    String concat(int a, double b);                    
+}
+----
+ou
+[syntax="java"]
+----
+(int a, double b) -> a + " " + b;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface Concatenator {
+    String concat(int a, double b);                    
+}
+----
+ou
+[syntax="java"]
+----
+(a, b) -> a + " " + b;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface UnaryOperator {
+    int op(a);
+}	
+----
+donne
+[syntax="java"]
+----
+(a) -> a * a;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface UnaryOperator {
+    int op(a);
+}	
+----
+ou sans parenthèses
+[syntax="java"]
+----
+a -> a * a;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface NumberSupplier {                                   
+    int get();
+}
+----
+donne
+[syntax="java"]
+----
+() -> 25;
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+    int toInt(String s);
+}
+----
+avec une référence à une méthode
+[syntax="java"]
+----
+String::length
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+    int toInt(String s);
+}
+----
+avec une référence à une méthode
+[syntax="java"]
+----
+String::length
+----
+identique à
+[syntax="java"]
+----
+s -> s.length()
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+    int toInt(String s);
+}
+----
+avec une référence à un constructeur
+[syntax="java"]
+----
+Integer::new
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+    int toInt(String s);
+}
+----
+avec une référence à un constructeur
+[syntax="java"]
+----
+Integer::new
+----
+identique à
+[syntax="java"]
+----
+s -> new Integer(s)
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+    int toInt(String s);
+}
+----
+avec une référence à une méthode statique
+[syntax="java"]
+----
+Integer::parseInt
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+    int toInt(String s);
+}
+----
+avec une référence à une méthode statique
+[syntax="java"]
+----
+Integer::parseInt
+----
+identique à
+[syntax="java"]
+----
+s -> Integer.parseInt(s)
+----    
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+    int toInt(String s);
+}
+----
+avec une référence à une méthode sur un autre objet
+[syntax="java"]
+----
+stringToIntMap::get
+----
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+interface StringToIntFunction {                        
+    int toInt(String s);
+}
+----
+avec une référence à une méthode sur un autre objet
+[syntax="java"]
+----
+stringToIntMap::get
+----
+identique à
+[syntax="java"]
+----
+s -> stringToIntMap.get(s)
+----    
+
+[role="terminal"]
+== \\
+[syntax="java"]
+----
+List<Integer> incrementAllWith(List<Integer> list, int inc) {
+    return list.stream()
+               .map(i -> i + inc)
+               .boxed()
+               .collect(Collectors.toList());
+}
+----
+
+== \\
+
+[{statement}]
+Effectively *final* ?
+
+[role="terminal"]
+== \\
+Exemple de code interdit
+[syntax="java"]
+----
+int cumulatedAge = 0; 
+persons.forEach(p -> {
+    cumulatedAge += p.getAge();
+});
+----
+
+[role="terminal"]
+== \\
+Remplacer par
+[syntax="java"]
+----
+int cumulatedAge = 
+    persons.stream().mapToInt(Person::getAge).sum();
+----
+
+== \\
+
+[{statement}]
+a *Stream* ?
+
+== \\
+[{stepwise}]
+* Stream
+* IntStream
+* LongStream
+* DoubleStream
+
+== \\
+[{stepwise}]
+* Sequential
+* Parallel [detail]#Fork/Join#
+
+[role="terminal"]
+== \\
+1 000 000 tweets?
+[syntax="java"]
+----
+public static int maxRetweets(Set<Tweet> tweets) {
+    return tweets.parallelStream()
+                 .map(t -> t.getRetweetCount())
+                 .max();
+}
+----
+
+== \\
+[{statement}]
+*Conclusion*
+
+== \\
+[{stepwise}]
+* Keep it short
+* Moins de boilerplate
+* Toute interface fonctionnelle peut être une lambda
+* Inférence
+* Erreurs parfois cryptiques
+* IDEs
+* 9ème version de cette prés...
+
+== \\
+[{stepwise}]
+* Content and bad jokes by @jbnizet and @cedric_exbrayat
+* Proof readed and approved by @agnes_crepet and @clacote
+
+== \\
+[{stepwise}]
+* Using asciidoc and dzslide with the great theme of @mojavelinux
+* Yes, the lambda image is the Half Life logo
+* Hipster Ariel photo by fremen9 (shamelessly stolen from @bodil)
+
+
+[NOTES]
+====
+Expérience très limitée pour le moment.
+- Encore plus que pour les classes anonymes, le corps des lambda devrait être très très court. Déléguer à des méthodes si le corps fait plus d'une ou deux lignes.
+- Réduit significativement le boilerplate.
+- Idée géniale: toute interface fonctionnelle peut être implémentée sous forme de lambda. Ca va permettre d'utiliser les lambdas avec Guava et des tas d'autres APIs, sans attendre une quelconque évolution de Guava.
+- Problème principal en ce moment: l'inférence de type. Ce serait bien de pouvoir écrire .collect(Collectors.toList()) plutôt que .collect(Collectors.<String>toList()). Travail toujours en cours pour améliorer ça.
+- De nouveaux messages cryptiques du compilateur à comprendre. Pas facile facile.
+- C'est une cible mouvante. On a dû réécrire nos slides 5 fois parce qu'à chaque fois qu'on revenait dessus, tout avait changé. Ca devrait se stabiliser d'ici peu.
+- Manque de méthodes raccourcis. Par exemple: .toList() au lieu de .collect(Collectors.<String>toList())
+- Manque cruel de javadoc. Mais ça va s'améliorer.
+- Les IDEs (en tout cas IntelliJ) ne sont pas encore au point, mais le sujet est instable, donc c'est normal. Fausses inférences, signalement d'erreurs quand il n'y en a pas. Pas de signalement d'erreur quand il y en a, etc.
+
+Le developer review va bientôt commencer. A nous d'agir. Déjà maintenant, le feedback est le bienvenu.
+====

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="example-quizz">
+    <head>
+        <title>Test your Lambda knowledge</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/quizz.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container" ng-controller="QuizzCtrl" ng-init="initWithConstant('quizz')">
+            <div ng-include="'templates/Quizz.html'"></div>
+        </div>
+
+        <script src="js/angular.min.js"></script>
+        <script src="js/angular-animate.min.js"></script>
+        <script src="js/showdown.js"></script>
+        <script src="js/quizz-tmpl.min.js"></script>
+        <script src="js/example-quizz.js"></script>
+    </body>
+</html>

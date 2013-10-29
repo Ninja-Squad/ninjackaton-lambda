@@ -1,0 +1,91 @@
+.quizz-question-sign-container {
+    margin-top: 20px;
+}
+.quizz-question .glyphicon-question-sign {
+    display: block;
+    font-size: 40px;
+    color: #0064cd;
+}
+.quizz-correct {
+    font-size: 40px;
+    color: #46a546;
+}
+.quizz-incorrect {
+    font-size: 40px;
+    color: #9d261d;
+}
+@media (min-width: 992px) {
+    .container {
+        margin-top: 60px;
+    }
+    .quizz-question .glyphicon-question-sign, .quizz-correct, .quizz-incorrect {
+        font-size: 60px;
+    }
+}
+th.quizz-tick, td.quizz-tick {
+    text-align: center;
+    width: 10%;
+}
+.quizz-explanation h2 {
+    font-size: 1.5em;
+}
+
+.quizz-question-sign-even {
+    -webkit-animation:spin .5s ease;
+    -moz-animation:spin .5s ease;
+    animation:spin .5s ease;
+}
+.quizz-question-sign-odd {
+    -webkit-animation:spin2 .5s ease;
+    -moz-animation:spin2 .5s ease;
+    animation:spin2 .5s ease;
+}
+@-moz-keyframes spin {
+    100% { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
+}
+
+@-moz-keyframes spin2 {
+    100% { -moz-transform: rotate(-360deg); }
+}
+@-webkit-keyframes spin2 {
+    100% { -webkit-transform: rotate(-360deg); }
+}
+@keyframes spin2 {
+    100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); }
+}
+
+
+.quizz-result-question.ng-enter,
+.quizz-result-question.ng-leave,
+.quizz-result.ng-hide-remove {
+    -webkit-transition:0.5s ease all;
+    -moz-transition:0.5s ease all;
+    -o-transition:0.5s ease all;
+    transition:0.5s ease all;
+}
+
+.quizz-result.ng-hide-remove {
+    display:block !important;
+}
+
+.quizz-result-question.ng-enter, /* starting state for enter */
+.quizz-result.ng-hide-remove { /* starting state for shown */
+    opacity: 0;
+}
+.quizz-result-question.ng-enter-active, /* terminal state for enter */
+.quizz-result.ng-hide-remove.ng-hide-remove-active { /* terminal state for shown */
+    opacity: 1;
+}
+.quizz-result-question.ng-leave { /* starting state for leave */
+    opacity: 1;
+}
+.quizz-result-question.ng-leave-active { /* terminal state for leave */
+    opacity: 0;
+}
+
